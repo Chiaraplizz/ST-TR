@@ -1,7 +1,5 @@
 # ST-TR
-Spatial Temporal Transformer Network for Skeleton-Based Activity Recognition
-
-
+![Alt Text](fig.png)
 ### Prerequisites
 - Python3
 - Pytorch
@@ -22,6 +20,7 @@ Set in */config/st_gcn/nturgbd/train.yaml*:
 
 ### Data generation
 - python3 ntu_gen_joint_data.py (joint)
+- preprocess.py to preprocess data
 - python3 ntu_gen_bone_data.py (bones)
 - python3 ntu_merge_joint_bones.py (merge joint+bones)
 
@@ -32,9 +31,12 @@ Set in */config/st_gcn/nturgbd/train.yaml*:
 ### Temporal Transformer 
 Set in */config/st_gcn/nturgbd/train.yaml*:
 - tcn_attention: True
+To set the block dimensions of the windowed version of Temporal Transformer:
+- dim_block1, dim_block2, dim_block3, respectively to set block dimension where the output channels are equal to 64, 128 and 256.
+
 
 ### Different ST-TR configurations
-Set in *"/config/st_gcn/nturgbd/train.yaml"*:
+Set in */config/st_gcn/nturgbd/train.yaml*:
 - only_attention: True, to substitute completely convolution with Transformer mechanism
 - relative: True, to use relative positional encoding
 - all_layers: True, to apply ST-TR on all layers, otherwise it will be applied from the 4th layer on

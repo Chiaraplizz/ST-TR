@@ -1,0 +1,66 @@
+
+# feeder
+feeder: st_gcn.feeder.Feeder_kinetics
+train_feeder_args:
+  random_choose: True
+  random_move: True
+  window_size: 150
+  data_path: ""
+  label_path: ""
+test_feeder_args:
+  data_path: ""
+  label_path: ""
+
+# model
+model: st_gcn.net.ST_GCN
+model_args:
+  num_class: 400
+  channel: 6
+  window_size: 150
+  num_person: 2
+  num_point: 18
+  dropout: 0
+  graph: st_gcn.graph.Kinetics
+  graph_args:
+    labeling_mode: 'spatial'
+  mask_learning: True
+  use_data_bn: True
+  attention: False
+  only_attention: True
+  tcn_attention: True
+  data_normalization: True
+  skip_conn: True
+  weight_matrix: 2
+  only_temporal_attention: True
+  bn_flag: True
+  attention_3: False
+  kernel_temporal: 9
+  more_channels: False
+  double_channel: True
+  drop_connect: True
+  concat_original: True
+  all_layers: False
+  adjacency: False
+  dv: 0.25
+  dk: 0.25
+  Nh: 8
+  n: 4
+  dim_block1: 10
+  dim_block2: 30
+  dim_block3: 75
+  relative: False
+  visualization: False
+
+  #optical_flow: True
+
+#optim
+weight_decay: 0.0001
+base_lr: 0.1
+step: [45, 55]
+
+# training
+device: [0, 1, 2, 3]
+batch_size: 64
+test_batch_size: 8
+num_epoch: 65
+nesterov: True
