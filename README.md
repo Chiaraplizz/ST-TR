@@ -1,5 +1,5 @@
 # ST-TR
-![Alt Text](fig.png)
+![Alt Text](Fig.png)
 ### Prerequisites
 - Python3
 - Pytorch
