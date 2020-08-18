@@ -30,13 +30,13 @@ Set in */config/st_gcn/nturgbd/train.yaml*:
 
 ### Data generation
 Use the following to generate joint data:
-<pre><code> python3 ntu_gen_joint_data.py <pre><code>
+<pre><code> python3 ntu_gen_joint_data.py </pre></code>
 Then, preprocess them by: 
-<pre><code> python3 preprocess.py <pre><code>
+<pre><code> python3 preprocess.py </pre></code>
 In order to generate bones, you need to run: 
-<pre><code> python3 ntu_gen_bone_data.py <pre><code>
+<pre><code> python3 ntu_gen_bone_data.py </pre></code>
 The joint information and bone information can be merged through:
-<pre><code> python3 ntu_merge_joint_bones.py <pre><code>
+<pre><code> python3 ntu_merge_joint_bones.py </pre></code>
 
 ### Spatial Transformer
 Set in */config/st_gcn/nturgbd/train.yaml*:
