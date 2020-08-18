@@ -61,6 +61,7 @@ Set in <code>/config/st_gcn/nturgbd/train.yaml</code>:
 ### Temporal Transformer 
 Set in <code>/config/st_gcn/nturgbd/train.yaml </code>:
 - <code>tcn_attention</code>: True
+
 To set the block dimensions of the windowed version of Temporal Transformer:
 - <code>dim_block1, dim_block2, dim_block3</code>, respectively to set block dimension where the output channels are equal to 64, 128 and 256.
 
