@@ -14,8 +14,8 @@ The heatmaps are 25 x 25 matrices, where each row and each column represents a b
 
 ### Prerequisites
 - Python3
-- Pytorch
-- all the libraries in *requirements.txt*
+- [PyTorch](http://pytorch.org)
+- All the libraries in <code>requirements.txt</code>
 
 ### Run mode
 <pre><code> python3 main.py </pre></code>
