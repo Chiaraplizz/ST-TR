@@ -22,7 +22,7 @@ The heatmaps are 25 x 25 matrices, where each row and each column represents a b
 
 **Training**:
 Set in <pre><code/config/st_gcn/nturgbd/train.yaml</pre></code>:
-- <pre><code>Training</pre></code>: True
+- <pre>Training</pre>: True
 
 **Testing**:
 Set in <pre><code>/config/st_gcn/nturgbd/train.yaml</pre></code>:
@@ -61,7 +61,7 @@ Set in <pre><code>/config/st_gcn/nturgbd/train.yaml</pre></code>:
 Set in <pre><code>/config/st_gcn/nturgbd/train.yaml </pre></code>:
 - <pre><code>tcn_attention</pre></code>: True
 To set the block dimensions of the windowed version of Temporal Transformer:
-- </pre></code>dim_block1, dim_block2, dim_block3</pre></code, respectively to set block dimension where the output channels are equal to 64, 128 and 256.
+- <pre><code>dim_block1, dim_block2, dim_block3</pre></code>, respectively to set block dimension where the output channels are equal to 64, 128 and 256.
 
 
 ### Different ST-TR configurations
