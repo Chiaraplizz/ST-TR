@@ -21,8 +21,8 @@ The heatmaps are 25 x 25 matrices, where each row and each column represents a b
 <pre><code> python3 main.py </pre></code>
 
 **Training**:
-Set in <pre><code/config/st_gcn/nturgbd/train.yaml</pre></code>:
-- <pre>Training</pre>: True
+Set in <pre><code>/config/st_gcn/nturgbd/train.yaml</pre></code>:
+- <code>Training</code>: True
 
 **Testing**:
 Set in <pre><code>/config/st_gcn/nturgbd/train.yaml</pre></code>:
