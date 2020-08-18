@@ -33,7 +33,7 @@ We performed our experiments on three datasets: **NTU-RGB+D 60**, **NTU-RGB+D 12
 ## NTU-RGB+D
 The data can downloaded from [their website](http://rose1.ntu.edu.sg/datasets/actionrecognition.asp). You need to download **3D Skeletons** only (5.8G (NTU-60) + 4.5G (NTU-120)). Once downloaded, use the following to generate joint data for NTU-60:
 <pre><code> python3 ntu_gendata.py </pre></code>
-Then, preprocess them by: 
+If you want to generate data and preprocess them, use directly:
 <pre><code> python3 preprocess.py </pre></code>
 In order to generate bones, you need to run: 
 <pre><code> python3 ntu_gen_bones.py </pre></code>
@@ -42,8 +42,16 @@ The joint information and bone information can be merged through:
 
 For NTU-120, the samples are divided between training and testing in a different way. Thus, you need to run: 
 <pre><code> python3 ntu120_gendata.py </pre></code>
+If you want to generate data and process them directly, use: 
+<pre><code> python3 preprocess_120.py </pre></code>
 
-Then, use the same functions shown above to generate bone data. 
+
+## Kinetics
+
+[Kinetics](https://deepmind.com/research/open-source/open-source-datasets/kinetics/) is a dataset for video action recognition, consisting of raw video data only. The corresponding skeletons are extracted using Openpose, and are available for download at [GoogleDrive](https://drive.google.com/open?id=1SPQ6FmFsjGg3f59uCWfdUWI-5HJM_YhZ) (7.5G). 
+From raw skeletons, generate the dataset by running:
+<pre><code> python3 kinetics_gendata.py </pre></code>
+
 
 ### Spatial Transformer
 Set in */config/st_gcn/nturgbd/train.yaml*:
