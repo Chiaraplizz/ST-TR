@@ -29,7 +29,9 @@ Set in */config/st_gcn/nturgbd/train.yaml*:
 - Training: False
 
 ### Data generation
-Use the following to generate joint data:
+We performed our experiments on three datasets: **NTU-RGB+D 60**, **NTU-RGB+D 120** and **Kinetics**. 
+## NTU-RGB+D
+The data can downloaded from [their website](http://rose1.ntu.edu.sg/datasets/actionrecognition.asp). You need to download **3D Skeletons** only (5.8G (NTU-60) + 4.5G (NTU-120)). Once downloaded, use the following to generate joint data:
 <pre><code> python3 ntu_gen_joint_data.py </pre></code>
 Then, preprocess them by: 
 <pre><code> python3 preprocess.py </pre></code>
