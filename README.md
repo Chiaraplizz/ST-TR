@@ -1,4 +1,4 @@
-# ST-TR
+# Spatial Temporal Transformer Network
 
 ### Introduction
 This repository contains the implementation of the model presented in:
@@ -6,8 +6,7 @@ This repository contains the implementation of the model presented in:
 > **Spatial Temporal Graph Convolutional Networks for Skeleton-Based Action Recognition**, Chiara Plizzari, Marco Cannici, Matteo Matteucci, https://arxiv.org/abs/2008.07404 
 ![Alt Text](IMG.png)
 
-### Visualizations
-![Alt Text](Fig.png)
+
 ### Prerequisites
 - Python3
 - Pytorch
@@ -56,6 +55,9 @@ Set in */config/st_gcn/nturgbd/train.yaml*:
 
 ### To merge S-TR and T-TR (ST-TR)
 - python3 ensemble.py
+
+### Visualizations
+![Alt Text](Fig.png)
 
 ### Citation 
 Please cite the following paper if you use this code for your researches:
