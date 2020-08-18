@@ -54,14 +54,14 @@ Set in */config/st_gcn/nturgbd/train.yaml*:
 ### Citation 
 Please cite the following paper if you use this code for your researches:
 
-@misc{plizzari2020spatial,
+> @misc{plizzari2020spatial,
     title={Spatial Temporal Transformer Network for Skeleton-based Action Recognition},
     author={Chiara Plizzari and Marco Cannici and Matteo Matteucci},
     year={2020},
     eprint={2008.07404},
     archivePrefix={arXiv},
     primaryClass={cs.CV}
-}
+  }
 
 <sub> Note: we include LICENSE, LICENSE_1 and LICENSE_2 in this repository since part of the code has been derived respectively
 from https://github.com/yysijie/st-gcn, https://github.com/leaderj1001/Attention-Augmented-Conv2d
