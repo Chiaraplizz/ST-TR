@@ -57,7 +57,7 @@ Set in */config/st_gcn/nturgbd/train.yaml*:
 - python3 ensemble.py
 
 ### Visualizations
-![Alt Text](Fig.png)
+![Alt Text](ezgif.com-video-to-gif-2.gif)
 ![Alt Text](ezgif.com-video-to-gif.gif)
 
 ### Citation 
