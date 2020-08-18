@@ -21,12 +21,12 @@ The heatmaps are 25 x 25 matrices, where each row and each column represents a b
 <pre><code> python3 main.py </pre></code>
 
 **Training**:
-Set in <pre><code>/config/st_gcn/nturgbd/train.yaml</pre></code>:
+Set in <code>/config/st_gcn/nturgbd/train.yaml</code>:
 - <code>Training</code>: True
 
 **Testing**:
-Set in <pre><code>/config/st_gcn/nturgbd/train.yaml</pre></code>:
-- <pre><code>Training</pre></code>: False
+Set in <code>/config/st_gcn/nturgbd/train.yaml</code>:
+- <code>Training</code>: False
 
 ### Data generation
 We performed our experiments on three datasets: **NTU-RGB+D 60**, **NTU-RGB+D 120** and **Kinetics**. 
@@ -54,28 +54,28 @@ From raw skeletons, generate the dataset by running:
 
 
 ### Spatial Transformer
-Set in <pre><code>/config/st_gcn/nturgbd/train.yaml</pre></code>:
-- <pre><code>attention</pre></code>: True
+Set in <code>/config/st_gcn/nturgbd/train.yaml</code>:
+- <code>attention</code>: True
 
 ### Temporal Transformer 
-Set in <pre><code>/config/st_gcn/nturgbd/train.yaml </pre></code>:
-- <pre><code>tcn_attention</pre></code>: True
+Set in <code>/config/st_gcn/nturgbd/train.yaml </code>:
+- <code>tcn_attention</code>: True
 To set the block dimensions of the windowed version of Temporal Transformer:
-- <pre><code>dim_block1, dim_block2, dim_block3</pre></code>, respectively to set block dimension where the output channels are equal to 64, 128 and 256.
+- <code>dim_block1, dim_block2, dim_block3</code>, respectively to set block dimension where the output channels are equal to 64, 128 and 256.
 
 
 ### Different ST-TR configurations
-Set in <pre><code>/config/st_gcn/nturgbd/train.yaml</pre></code>:
-- <pre><code>only_attention</pre></code>: True, to substitute completely convolution with Transformer mechanism
-- <pre><code>relative</pre></code>: True, to use relative positional encoding
-- <pre><code>all_layers</pre></code>: True, to apply ST-TR on all layers, otherwise it will be applied from the 4th layer on
-- <pre><code>more_channels</pre></code>: True, to assign to each head more channels than dk/Nh.
-- <pre><code>n</pre></code>: used if more_channels is set to True, in order to assign to each head dk*num/Nh channels
+Set in <code>/config/st_gcn/nturgbd/train.yaml</code>:
+- <code>only_attention</code>: True, to substitute completely convolution with Transformer mechanism
+- <code>relative</code>: True, to use relative positional encoding
+- <code>all_layers</code>: True, to apply ST-TR on all layers, otherwise it will be applied from the 4th layer on
+- <code>more_channels</code>: True, to assign to each head more channels than dk/Nh.
+- <code>n</code>: used if more_channels is set to True, in order to assign to each head dk*num/Nh channels
 
 ### Second order information
-Set in <pre><code>/config/st_gcn/nturgbd/train.yaml</pre></code>:
-- channels: 6, because on channels dimension we have both the coordinates of joint (3), and coordinates of bones(3)
-- double_channel: True, since in this configuration we also doubled the channels in each layer.
+Set in <code>/config/st_gcn/nturgbd/train.yaml</code>:
+- <code>channels</code>: 6, because on channels dimension we have both the coordinates of joint (3), and coordinates of bones(3)
+- <code>double_channel</code>: True, since in this configuration we also doubled the channels in each layer.
 
 ### To merge S-TR and T-TR (ST-TR)
 The score resulting from the S-TR stream and T-TR stream are combined to produce the final ST-TR score by: 
