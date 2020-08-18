@@ -16,7 +16,6 @@ This repository contains the implementation of the model presented in:
 ### Run mode
 - python3 main.py 
 
-
 **Training**:
 Set in */config/st_gcn/nturgbd/train.yaml*:
 - Training: True
@@ -24,7 +23,6 @@ Set in */config/st_gcn/nturgbd/train.yaml*:
 **Testing**:
 Set in */config/st_gcn/nturgbd/train.yaml*:
 - Training: False
-
 
 ### Data generation
 - python3 ntu_gen_joint_data.py (joint)
