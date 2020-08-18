@@ -1,5 +1,12 @@
 # ST-TR
 ![Alt Text](Fig.png)
+
+### Introduction
+This repository is based on the paper:
+
+> **Spatial Temporal Graph Convolutional Networks for Skeleton-Based Action Recognition**, Chiara Plizzari, Marco Cannici, Matteo Matteucci, https://arxiv.org/abs/2008.07404 
+
+
 ### Prerequisites
 - Python3
 - Pytorch
