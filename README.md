@@ -31,7 +31,7 @@ Set in */config/st_gcn/nturgbd/train.yaml*:
 ### Data generation
 We performed our experiments on three datasets: **NTU-RGB+D 60**, **NTU-RGB+D 120** and **Kinetics**. 
 ## NTU-RGB+D
-The data can downloaded from [their website](http://rose1.ntu.edu.sg/datasets/actionrecognition.asp). You need to download **3D Skeletons** only (5.8G (NTU-60) + 4.5G (NTU-120)). Once downloaded, use the following to generate joint data:
+The data can downloaded from [their website](http://rose1.ntu.edu.sg/datasets/actionrecognition.asp). You need to download **3D Skeletons** only (5.8G (NTU-60) + 4.5G (NTU-120)). Once downloaded, use the following to generate joint data for NTU-60:
 <pre><code> python3 ntu_gen_joint_data.py </pre></code>
 Then, preprocess them by: 
 <pre><code> python3 preprocess.py </pre></code>
@@ -39,6 +39,11 @@ In order to generate bones, you need to run:
 <pre><code> python3 ntu_gen_bone_data.py </pre></code>
 The joint information and bone information can be merged through:
 <pre><code> python3 ntu_merge_joint_bones.py </pre></code>
+
+For NTU-120, the samples are divided between training and testing in a different way. Thus, you need to run: 
+<pre><code> python3 ntu120_gen_joint_data.py </pre></code>
+
+Then, use the same functions shown above to generate bone data. 
 
 ### Spatial Transformer
 Set in */config/st_gcn/nturgbd/train.yaml*:
