@@ -58,6 +58,7 @@ Set in */config/st_gcn/nturgbd/train.yaml*:
 
 ### Visualizations
 ![Alt Text](Fig.png)
+![Alt Text](ezgif.com-video-to-gif.gif)
 
 ### Citation 
 Please cite the following paper if you use this code for your researches:
