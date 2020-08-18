@@ -6,6 +6,9 @@ This repository contains the implementation of the model presented in:
 > **Spatial Temporal Graph Convolutional Networks for Skeleton-Based Action Recognition**, Chiara Plizzari, Marco Cannici, Matteo Matteucci, https://arxiv.org/abs/2008.07404 
 ![Alt Text](IMG.png)
 
+### Visualizations
+The heatmaps are 25 x 25 matrices, where each row and each column represents a body joint. An element in position (i, j) represents the correlation between joint i and joint j, resulting from self-attention.
+![Alt Text](ezgif.com-video-to-gif-2.gif)![Alt Text](ezgif.com-video-to-gif.gif)
 
 ### Prerequisites
 - Python3
@@ -56,8 +59,7 @@ Set in */config/st_gcn/nturgbd/train.yaml*:
 ### To merge S-TR and T-TR (ST-TR)
 - python3 ensemble.py
 
-### Visualizations
-![Alt Text](ezgif.com-video-to-gif-2.gif)![Alt Text](ezgif.com-video-to-gif.gif)
+
 
 ### Citation 
 Please cite the following paper if you use this code for your researches:
