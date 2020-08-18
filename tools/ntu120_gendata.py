@@ -1,14 +1,10 @@
-import sys
-sys.path.extend(['../'])
-
-import os
-import pickle
-import argparse
-
 import numpy as np
-from tqdm import tqdm
-
-from data_gen.preprocess import pre_normalization
+import argparse
+import os
+import sys
+from .ntu_read_skeleton import read_xyz
+from numpy.lib.format import open_memmap
+import pickle
 
 
 # NTU RGB+D Skeleton 120 Configurations: https://arxiv.org/pdf/1905.04757.pdf
