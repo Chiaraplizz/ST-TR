@@ -2,7 +2,7 @@
 ![Alt Text](Fig.png)
 
 ### Introduction
-This repository is based on the paper:
+This repository contains the implementation of the model presented in:
 
 > **Spatial Temporal Graph Convolutional Networks for Skeleton-Based Action Recognition**, Chiara Plizzari, Marco Cannici, Matteo Matteucci, https://arxiv.org/abs/2008.07404 
 
