@@ -5,13 +5,13 @@ This repository contains the implementation of the model presented in:
 
 > **Spatial Temporal Graph Convolutional Networks for Skeleton-Based Action Recognition**, Chiara Plizzari, Marco Cannici, Matteo Matteucci, [ArXiv](https://arxiv.org/abs/2008.07404)
 
-![Alt Text](IMG.png)
+![Alt Text](Additional_files/IMG.png)
 
 ### Visualizations of Spatial Transformer logits
 
 The heatmaps are 25 x 25 matrices, where each row and each column represents a body joint. An element in position (i, j) represents the correlation between joint i and joint j, resulting from self-attention.
 
-![Alt Text](ezgif.com-video-to-gif-2.gif)![Alt Text](ezgif.com-video-to-gif.gif)
+![Alt Text](Additional_files/ezgif.com-video-to-gif-2.gif)![Alt Text](Additional_files/ezgif.com-video-to-gif.gif)
 
 ### Prerequisites
 - Python3
