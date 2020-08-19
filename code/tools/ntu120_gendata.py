@@ -7,6 +7,9 @@ from numpy.lib.format import open_memmap
 import pickle
 from .prenormalization import pre_normalization
 
+'''
+Code from https://github.com/kenziyuliu/MS-G3D/blob/master/data_gen/ntu120_gendata.py
+'''
 
 
 # NTU RGB+D Skeleton 120 Configurations: https://arxiv.org/pdf/1905.04757.pdf
