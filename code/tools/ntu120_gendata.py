@@ -5,7 +5,6 @@ import sys
 from .ntu_read_skeleton import read_xyz
 from numpy.lib.format import open_memmap
 import pickle
-from .prenormalization import pre_normalization
 
 '''
 Code from https://github.com/kenziyuliu/MS-G3D/blob/master/data_gen/ntu120_gendata.py
@@ -150,8 +149,7 @@ def gendata(file_list, out_path, ignored_sample_path, benchmark, part):
         # Fill (C,T,V,M) to data tensor (N,C,T,V,M)
         fp[i, :, 0:data.shape[1], :, :] = data
 
-    # Perform preprocessing on data tensor
-    fp = pre_normalization(fp)
+
     # Save input data (train/val)
     np.save('{}/{}_data_joint.npy'.format(out_path, part), fp)
 
