@@ -55,12 +55,16 @@ From raw skeletons, generate the dataset by running:
 
 
 ### Spatial Transformer
+Spatial Transformer implementation corresponds to <code>ST-TR/code/st_gcn/net/spatial_transformer.py</code>.
 Set in <code>/config/st_gcn/nturgbd/train.yaml</code>:
 - <code>attention</code>: True
+to run the spatial transformer stream (S-TR-stream).
 
 ### Temporal Transformer 
+Temporal Transformer implementation corresponds to <code>ST-TR/code/st_gcn/net/temporal_transformer.py</code>.
 Set in <code>/config/st_gcn/nturgbd/train.yaml </code>:
 - <code>tcn_attention</code>: True
+to run the temporal transformer stream (T-TR-stream).
 
 To set the block dimensions of the windowed version of Temporal Transformer:
 - <code>dim_block1, dim_block2, dim_block3</code>, respectively to set block dimension where the output channels are equal to 64, 128 and 256.
