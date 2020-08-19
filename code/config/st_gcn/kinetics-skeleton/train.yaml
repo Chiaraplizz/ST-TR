@@ -5,11 +5,11 @@ train_feeder_args:
   random_choose: True
   random_move: True
   window_size: 150
-  data_path: /multiverse/datasets/plizzari/kinetics_data/train_data_joint_bones.npy
-  label_path: /multiverse/datasets/plizzari/kinetics_data/train_label.pkl
+  data_path: ./kinetics_data/train_data_joint_bones.npy
+  label_path: ./kinetics_data/train_label.pkl
 test_feeder_args:
-  data_path: /multiverse/datasets/plizzari/kinetics_data/val_data_joint_bones.npy
-  label_path: /multiverse/datasets/plizzari/kinetics_data/val_label.pkl
+  data_path: ./kinetics_data/val_data_joint_bones.npy
+  label_path: ./kinetics_data/val_label.pkl
 
 # model
 model: st_gcn.net.ST_GCN

@@ -35,8 +35,8 @@ import os
 
 incidence = np.array([])
 
-name_exp = 'ntu60_bones_temporal-agcn-xsub-fixed'
-writer = SummaryWriter('/multiverse/storage/plizzari/logs_thesis/attention/' + name_exp)
+name_exp = ''
+writer = SummaryWriter('./' + name_exp)
 use_gpu = True
 device = torch.device("cuda:0" if torch.cuda.is_available() and use_gpu else "cpu")
 
@@ -58,7 +58,7 @@ def get_parser():
     parser.add_argument('--val_split', type=int, default=0.2)
     parser.add_argument('--data_dir', type=str)
     parser.add_argument('--log_dir', type=str,
-                        default="/multiverse/storage/plizzari/checkpoints/" + name_exp)
+                        default="./checkpoints/" + name_exp)
     parser.add_argument('--exp_name', type=str, default=name_exp)
     parser.add_argument('--num_workers', type=int, default=10)
     parser.add_argument('--clip_grad_norm', type=float, default=0.5)
@@ -76,7 +76,7 @@ def get_parser():
 
     parser.add_argument(
         '--work-dir',
-        default='/multiverse/storage/plizzari/checkpoints/' + name_exp,
+        default='./checkpoints/' + name_exp,
         help='the work folder for storing results')
     parser.add_argument(
         '--config',
@@ -162,7 +162,7 @@ def get_parser():
         help='the arguments of model')
     parser.add_argument(
         '--weights',
-        default='/multiverse/storage/plizzari/checkpoints/ntu60_bones_temporal-agcn-xsub-fixed/epoch38_model.pt',
+        default='',
         help='the weights for network initialization')
     parser.add_argument(
         '--ignore-weights',
@@ -280,9 +280,7 @@ class Processor():
 
     def load_data(self):
         Feeder = import_class(self.arg.feeder)
-        # FeederAugmented = import_class(self.arg.feeder_augmented)
-        # if (arg.data_mirroring):
-        #    self.trainLoaderAugmented = FeederAugmented(**self.arg.train_feeder_args)
+
         self.data_loader = dict()
         self.trainLoader = Feeder(**self.arg.train_feeder_args)
         self.testLoader = Feeder(**self.arg.test_feeder_args)
@@ -501,9 +499,6 @@ class Processor():
                     'loss-Train': loss,
                     'accuracy-Train': acc,
                 }
-                # conf_matrix_train += confusion_matrix(predictions.cpu(), label.cpu(), labels=np.arange(60))
-                # np.save('/multiverse/storage/plizzari/checkpoints/' + name_exp + '/conf_train_' + str(epoch),
-                #        conf_matrix_train)
 
                 # Print statistics every 100 batches
                 if (batch_idx + 1) % 200 == 0:
@@ -592,9 +587,7 @@ class Processor():
                     'accuracy-Train': acc,
                 }
 
-                # conf_matrix_train += confusion_matrix(predictions.cpu(), label.cpu(), labels=np.arange(60))
-                # np.save('/multiverse/storage/plizzari/checkpoints/' + name_exp + '/conf_train_' + str(epoch),
-                #        conf_matrix_train)
+
 
                 # Updating running_loss and seen samples
                 running_loss += loss.item()
@@ -721,7 +714,7 @@ class Processor():
                     'accuracy-test': val_accuracy
                 }
                 conf_matrix_test += confusion_matrix(predictions.cpu(), label.cpu(), labels=np.arange(class_number))
-                np.save("/multiverse/storage/plizzari/checkpoints/" + name_exp + "/confusion_test_" + str(epoch),
+                np.save("./checkpoints/" + name_exp + "/confusion_test_" + str(epoch),
                         conf_matrix_test)
 
             score = np.concatenate(score_frag)
@@ -842,7 +835,7 @@ class Processor():
                     'accuracy-val': val_accuracy
                 }
                 conf_matrix_val += confusion_matrix(predictions.cpu(), label.cpu(), labels=np.arange(class_number))
-                np.save("/multiverse/storage/plizzari/checkpoints/" + name_exp + "/conf_val_" + str(epoch),
+                np.save("./checkpoints/" + name_exp + "/conf_val_" + str(epoch),
                         conf_matrix_val)
 
             score = np.concatenate(score_frag)
@@ -871,16 +864,6 @@ class Processor():
                                                                    int(100 * class_correct[i] /
                                                                        class_total[i])))
 
-            # Calculates the confusion matrix
-            # conf_matrix = confusion_matrix(predictions.cpu(), label.cpu())
-            # print("The confusion matrix is: ", conf_matrix)
-
-            # Calculates and plots the confusion matrix
-            # df_cm = pd.DataFrame(self.conf_matrix_val, index=[i for i in range(0, 60)],
-            # columns=[i for i in range(0, 60)])
-            # conf_fig = plt.figure(figsize=(13, 10))
-            # plt.title("Confusion Matrix - Validation")
-            # sn.heatmap(df_cm, annot=True)
             #
             step = (epoch + 1) * (len(self.data_loader['train']) / (arg.optimize_every))
 
@@ -893,13 +876,13 @@ class Processor():
 
     def start(self):
 
-        # if not self.arg.training:
+        if not self.arg.training:
+            self.test(
+                epoch=0, save_score=self.arg.save_score, loader_name=['test'])
 
         patience = 50
         patient_counter = 0
-        #
-        #self.test(
-        #epoch=0, save_score=self.arg.save_score, loader_name=['test'])
+
 
         pytorch_total_params = sum(p.numel() for p in self.model.parameters() if p.requires_grad)
         layer_params = sum([p.view(-1).shape[0] for p in self.model.parameters()])
@@ -935,9 +918,9 @@ class Processor():
                     pass
 
             self.print_log('Load weights from {}.'.format(
-                '/multiverse/storage/plizzari/checkpoints/' + name_exp + '/epoch' + str(epoch) + '_model.pt'))
+                './checkpoints/' + name_exp + '/epoch' + str(epoch) + '_model.pt'))
             weights = torch.load(
-                '/multiverse/storage/plizzari/checkpoints/' + name_exp + '/epoch' + str(epoch) + '_model.pt')
+                './checkpoints/' + name_exp + '/epoch' + str(epoch) + '_model.pt')
 
             for w in self.arg.ignore_weights:
                 if weights.pop(w, None) is not None:
@@ -966,7 +949,7 @@ class Processor():
             self.print_log('Model:   {}.'.format(self.arg.model))
             self.print_log('Weights: {}.'.format(self.arg.weights))
             weights = torch.load(
-                '/multiverse/storage/plizzari/checkpoints/' + name_exp + '/epoch' + str(119) + '_model.pt')
+                './checkpoints/' + name_exp + '/epoch' + str(119) + '_model.pt')
             self.test(
                 epoch=0, save_score=self.arg.save_score, loader_name=['test'])
             self.print_log('Done.\n')

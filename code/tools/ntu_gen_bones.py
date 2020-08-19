@@ -41,11 +41,11 @@ def gen_bone_data():
         for set in sets:
             print(dataset, set)
             data = np.load(
-                '/multiverse/datasets/plizzari/Output_skeletons_without_missing_skeletons/{}/{}_data_joint_filtered.npy'.format(
+                './Output_skeletons_without_missing_skeletons/{}/{}_data_joint_filtered.npy'.format(
                     dataset, set))
 
             data1 = np.load(
-                '/multiverse/datasets/plizzari/Output_skeletons_without_missing_skeletons/{}/{}_data_joint_bones.npy'.format(
+                './Output_skeletons_without_missing_skeletons/{}/{}_data_joint_bones.npy'.format(
                     dataset, set))
 
            # N, C, T, V, M = data.shape

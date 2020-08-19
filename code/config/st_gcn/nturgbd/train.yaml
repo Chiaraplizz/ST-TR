@@ -2,38 +2,19 @@
 feeder: st_gcn.feeder.Feeder
 feeder_augmented: st_gcn.feeder.FeederAugmented
 train_feeder_args:
-  #data_path: /multiverse/datasets/plizzari/Output_skeletons_without_missing_skeletons/xview/train_data_joint_filtered.npy
-  data_path: /multiverse/datasets/plizzari/Output_skeletons_without_missing_skeletons/xsub/train_data_joint_bones.npy
-  label_path: /multiverse/datasets/plizzari/Output_skeletons_without_missing_skeletons/xsub/train_label_filtered.pkl
-  #data_path: /multiverse/datasets/plizzari/new_data_processed/xsub/train_data_joint_120_1.npy
-  #label_path: /multiverse/datasets/plizzari/new_data_processed/xsub/train_label_120_1.pkl
+  data_path: ./Output_skeletons_without_missing_skeletons/xsub/train_data_joint_bones.npy
+  label_path: ./Output_skeletons_without_missing_skeletons/xsub/train_label_filtered.pkl
+
   random_choose: False
   random_shift: False
   random_move: False
   window_size: -1
   normalization: False
   mirroring: False
-#train_feeder_args_new:
-#  data_path: /multiverse/datasets/plizzari/Output_skeletons_without_missing_skeletons/xsub/train_data_joint_bones_1.npy
-#  label_path: /multiverse/datasets/plizzari/Output_skeletons_without_missing_skeletons/xsub/train_label_filtered.pkl
-#  data_path_1: /multiverse/datasets/plizzari/new_data_processed/xsub/train_data_joint_bone_filtered_new.npy
-#  label_path_1: /multiverse/datasets/plizzari/new_data_processed/xsub/train_label_filtered_new.pkl
-#  random_choose: False
-#  random_shift: False
-#  random_move: False
-#  window_size: -1
-#  normalization: False
-#  mirroring: False
+
 test_feeder_args:
-  #data_path: /multiverse/datasets/plizzari/new_data_processed/xsub/val_joint_120.npy
-  #label_path: /multiverse/datasets/plizzari/new_data_processed/xsub/val_label_120.pkl
-  data_path: /multiverse/datasets/plizzari/Output_skeletons_without_missing_skeletons/xsub/val_data_joint_bones.npy
-  label_path: /multiverse/datasets/plizzari/Output_skeletons_without_missing_skeletons/xsub/val_label_filtered.pkl
-#test_feeder_args_new:
-  #data_path: /multiverse/datasets/plizzari/Output_skeletons_without_missing_skeletons/xview/val_data_joint_filtered.npy
-  #label_path: /multiverse/datasets/plizzari/Output_skeletons_without_missing_skeletons/xview/val_label_filtered.pkl
-#  data_path_1: /multiverse/datasets/plizzari/new_data_processed/xsub/val_data_joint_bone_filtered_new.npy
-#  label_path_1: /multiverse/datasets/plizzari/new_data_processed/xsub/val_label_filtered_new.pkl
+  data_path: ./Output_skeletons_without_missing_skeletons/xsub/val_data_joint_bones.npy
+  label_path: ./Output_skeletons_without_missing_skeletons/xsub/val_label_filtered.pkl
 
 # model
 model: st_gcn.net.ST_GCN

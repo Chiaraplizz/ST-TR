@@ -144,9 +144,9 @@ def gendata(data_path, out_path, ignored_sample_path, benchmark='xview', part='e
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='NTU-RGB-D Data Converter.')
-    parser.add_argument('--data_path', default='/multiverse/datasets/plizzari/Skeletons/nturgb+d_skeletons/')
-    parser.add_argument('--ignored_sample_path', default='/multiverse/datasets/plizzari/missing_samples.txt')
-    parser.add_argument('--out_folder', default='/multiverse/datasets/plizzari/new_data_processed/')
+    parser.add_argument('--data_path', default='./Skeletons/nturgb+d_skeletons/')
+    parser.add_argument('--ignored_sample_path', default='./missing_samples.txt')
+    parser.add_argument('--out_folder', default='./new_data_processed/')
 
     benchmarks = ['xsub']
     parts = ['val', 'train']
