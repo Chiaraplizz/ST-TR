@@ -53,35 +53,46 @@ If you want to generate data and process them directly, use:
 From raw skeletons, generate the dataset by running:
 <pre><code> python3 kinetics_gendata.py </pre></code>
 
-
-### Spatial Transformer
+### Spatial Transformer Stream
+Spatial Transformer implementation corresponds to <code>ST-TR/code/st_gcn/net/spatial_transformer.py</code>.
 Set in <code>/config/st_gcn/nturgbd/train.yaml</code>:
-- <code>attention</code>: True
+- <code>attention: True</code>
+- <code>tcn_attention: False</code>
+- <code>only_attention: True</code>
+- <code>all_layers: False</code>
 
-### Temporal Transformer 
+to run the spatial transformer stream (S-TR-stream).
+
+### Temporal Transformer Stream
+Temporal Transformer implementation corresponds to <code>ST-TR/code/st_gcn/net/temporal_transformer.py</code>.
 Set in <code>/config/st_gcn/nturgbd/train.yaml </code>:
-- <code>tcn_attention</code>: True
+- <code>attention: False</code>
+- <code>tcn_attention: True</code>
+- <code>only_attention: True</code>
+- <code>all_layers: False</code>
 
-To set the block dimensions of the windowed version of Temporal Transformer:
-- <code>dim_block1, dim_block2, dim_block3</code>, respectively to set block dimension where the output channels are equal to 64, 128 and 256.
-
-
-### Different ST-TR configurations
-Set in <code>/config/st_gcn/nturgbd/train.yaml</code>:
-- <code>only_attention</code>: True, to substitute completely convolution with Transformer mechanism
-- <code>relative</code>: True, to use relative positional encoding
-- <code>all_layers</code>: True, to apply ST-TR on all layers, otherwise it will be applied from the 4th layer on
-- <code>more_channels</code>: True, to assign to each head more channels than dk/Nh.
-- <code>n</code>: used if more_channels is set to True, in order to assign to each head dk*num/Nh channels
-
-### Second order information
-Set in <code>/config/st_gcn/nturgbd/train.yaml</code>:
-- <code>channels</code>: 6, because on channels dimension we have both the coordinates of joint (3), and coordinates of bones(3)
-- <code>double_channel</code>: True, since in this configuration we also doubled the channels in each layer.
+to run the temporal transformer stream (T-TR-stream).
 
 ### To merge S-TR and T-TR (ST-TR)
 The score resulting from the S-TR stream and T-TR stream are combined to produce the final ST-TR score by: 
-<pre><code>  python3 ensemble.py </pre></code> 
+<pre><code>  python3 ensemble.py </pre></code>
+
+### Different ST-TR configurations
+Set in <code>/config/st_gcn/nturgbd/train.yaml</code>:
+- <code>only_attention: False</code>, to use ST-TR as an augmentation procedure to ST-GCN (refer to Sec. V(E) "Effect of Augmenting Convolution with Self-Attention")
+- <code>all_layers: True</code>, to apply ST-TR on all layers, otherwise it will be applied from the 4th layer on (refer to Sec. V(D) "Effect of Applying Self-Attention to Feature Extraction")
+- Set both <code>attention: True</code> and <code>tcn_attention: True</code> to combine both SSA and TSA on a unique stream (refer to Sec. V(F) "Effect of combining SSA and TSA on one stream")
+- <code>more_channels: True</code>, to assign to each head more channels than dk/Nh.
+- <code>n</code>: used if more_channels is set to True, in order to assign to each head dk*num/Nh channels
+To set the block dimensions of the windowed version of Temporal Transformer:
+- <code>dim_block1, dim_block2, dim_block3</code>, respectively to set block dimension where the output channels are equal to 64, 128 and 256.
+
+### Second order information
+Set in <code>/config/st_gcn/nturgbd/train.yaml</code>:
+- <code>channels: 6 </code>, because on channels dimension we have both the coordinates of joint (3), and coordinates of bones(3)
+- <code>double_channel: True </code>, since in this configuration we also doubled the channels in each layer.
+
+ 
 
 
 
