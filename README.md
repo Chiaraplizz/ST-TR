@@ -56,20 +56,20 @@ From raw skeletons, generate the dataset by running:
 ### Spatial Transformer Stream
 Spatial Transformer implementation corresponds to <code>ST-TR/code/st_gcn/net/spatial_transformer.py</code>.
 Set in <code>/config/st_gcn/nturgbd/train.yaml</code>:
-- <code>attention</code>: True
-- <code>tcn_attention: False </code>
-- <code>only_attention: True </code>
-- <code>all_layers: False </code>
+- <code>attention: True</code>
+- <code>tcn_attention: False</code>
+- <code>only_attention: True</code>
+- <code>all_layers: False</code>
 
 to run the spatial transformer stream (S-TR-stream).
 
 ### Temporal Transformer 
 Temporal Transformer implementation corresponds to <code>ST-TR/code/st_gcn/net/temporal_transformer.py</code>.
 Set in <code>/config/st_gcn/nturgbd/train.yaml </code>:
-- <code>attention: False </code>
-- <code>tcn_attention: True </code>
-- <code>only_attention: True </code>
-- <code>all_layers: False </code>
+- <code>attention: False</code>
+- <code>tcn_attention: True</code>
+- <code>only_attention: True</code>
+- <code>all_layers: False</code>
 
 to run the temporal transformer stream (T-TR-stream).
 
