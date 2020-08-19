@@ -11,7 +11,7 @@ This repository contains the implementation of the model presented in:
 
 The heatmaps are 25 x 25 matrices, where each row and each column represents a body joint. An element in position (i, j) represents the correlation between joint i and joint j, resulting from self-attention.
 
-![Alt Text](additional_files/ezgif.com-video-to-gif-2.gif)![Alt Text](Additional_files/ezgif.com-video-to-gif.gif)
+![Alt Text](additional_files/ezgif.com-video-to-gif-2.gif)![Alt Text](additional_files/ezgif.com-video-to-gif.gif)
 
 ### Prerequisites
 - Python3
