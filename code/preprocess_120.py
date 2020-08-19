@@ -158,11 +158,11 @@ def gendata(file_list, out_path, ignored_sample_path, benchmark, part):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='NTU-RGB-D 120 Skeleton Data Extraction')
-    parser.add_argument('--part1-path', default='/multiverse/datasets/plizzari/Skeletons/nturgb+d_skeletons/')
-    parser.add_argument('--part2-path', default='/multiverse/datasets/plizzari/new_skeletons/')
+    parser.add_argument('--part1-path', default='./Skeletons/nturgb+d_skeletons/')
+    parser.add_argument('--part2-path', default='./new_skeletons/')
     parser.add_argument('--ignored-sample-path',
-                        default='/multiverse/datasets/plizzari/missing_samples.txt')
-    parser.add_argument('--out-folder', default='/multiverse/datasets/plizzari/new_data_processed/')
+                        default='./missing_samples.txt')
+    parser.add_argument('--out-folder', default='./new_data_processed/')
 
     benchmark = ['xsub']
     part = ['val']

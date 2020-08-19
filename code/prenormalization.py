@@ -89,6 +89,6 @@ def pre_normalization(data, zaxis=[0, 1], xaxis=[8, 4]):
 
 
 if __name__ == '__main__':
-    data = np.load('/multiverse/datasets/plizzari/kinetics_data/train/')
+    data = np.load('./kinetics_data/train/')
     pre_normalization(data)
-    np.save('/multiverse/datasets/plizzari/kinetics_data_preprocessed/train/', data)
+    np.save('./kinetics_data_preprocessed/train/', data)

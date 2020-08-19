@@ -16,12 +16,12 @@ parser.add_argument('--alpha', default=1, help='weighted summation')
 arg = parser.parse_args()
 
 dataset = arg.datasets
-label = open('/multiverse/datasets/plizzari/Output_skeletons_without_missing_skeletons/xsub/val_label_filtered.pkl', 'rb')
+label = open('./Output_skeletons_without_missing_skeletons/xsub/val_label_filtered.pkl', 'rb')
 label = np.array(pickle.load(label))
 #
-r1 = open('/multiverse/storage/plizzari/checkpoints/test120-GraphTransformer_bones_XSUB/epoch1_test_score.pkl', 'rb')
+r1 = open('./epoch1_test_score.pkl', 'rb')
 r1 = list(pickle.load(r1).items())
-r2 = open('/multiverse/storage/plizzari/checkpoints/test84-ntu60_bones_temporal-agcn-xsub/epoch1_test_score.pkl', 'rb')
+r2 = open('./epoch1_test_score.pkl', 'rb')
 r2 = list(pickle.load(r2).items())
 right_num = total_num = right_num_5 = 0
 print(label.size)

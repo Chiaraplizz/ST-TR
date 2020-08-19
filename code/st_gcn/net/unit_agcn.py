@@ -12,6 +12,12 @@ import torch
 import torch.nn as nn
 from torch.autograd import Variable
 
+'''
+This class implements Adaptive Graph Convolution. 
+Function adapted from "Two-Stream Adaptive Graph Convolutional Networks for Skeleton Action Recognition" of Shi. et al. ("https://github.com/lshiwjx/2s-AGCN")
+
+'''
+
 
 def conv_init(conv):
     nn.init.kaiming_normal_(conv.weight, mode='fan_out')
@@ -22,6 +28,7 @@ def bn_init(bn, scale):
     nn.init.constant_(bn.weight, scale)
     nn.init.constant_(bn.bias, 0)
 
+
 def conv_branch_init(conv, branches):
     weight = conv.weight
     n = weight.size(0)
@@ -30,8 +37,10 @@ def conv_branch_init(conv, branches):
     nn.init.normal_(weight, 0, math.sqrt(2. / (n * k1 * k2 * branches)))
     nn.init.constant_(conv.bias, 0)
 
+
 class unit_gcn(nn.Module):
-    def __init__(self, in_channels, out_channels, A, coff_embedding=4, num_subset=3, use_local_bn=False, mask_learning=False):
+    def __init__(self, in_channels, out_channels, A, coff_embedding=4, num_subset=3, use_local_bn=False,
+                 mask_learning=False):
         super(unit_gcn, self).__init__()
         inter_channels = out_channels // coff_embedding
         self.inter_c = inter_channels
@@ -88,5 +97,3 @@ class unit_gcn(nn.Module):
         y = self.bn(y)
         y += self.down(x)
         return self.relu(y)
-
-

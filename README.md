@@ -3,7 +3,8 @@
 ### Introduction
 This repository contains the implementation of the model presented in:
 
-> **Spatial Temporal Graph Convolutional Networks for Skeleton-Based Action Recognition**, Chiara Plizzari, Marco Cannici, Matteo Matteucci, https://arxiv.org/abs/2008.07404 
+> **Spatial Temporal Graph Convolutional Networks for Skeleton-Based Action Recognition**, Chiara Plizzari, Marco Cannici, Matteo Matteucci, [ArXiv](https://arxiv.org/abs/2008.07404)
+
 ![Alt Text](IMG.png)
 
 ### Visualizations of Spatial Transformer logits
@@ -60,6 +61,7 @@ Set in <code>/config/st_gcn/nturgbd/train.yaml</code>:
 ### Temporal Transformer 
 Set in <code>/config/st_gcn/nturgbd/train.yaml </code>:
 - <code>tcn_attention</code>: True
+
 To set the block dimensions of the windowed version of Temporal Transformer:
 - <code>dim_block1, dim_block2, dim_block3</code>, respectively to set block dimension where the output channels are equal to 64, 128 and 256.
 

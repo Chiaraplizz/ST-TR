@@ -163,9 +163,9 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(
         description='Kinetics-skeleton Data Converter.')
     parser.add_argument(
-        '--data_path', default='/multiverse/storage/plizzari/kinetics/kinetics-skeleton/')
+        '--data_path', default='./kinetics/kinetics-skeleton/')
     parser.add_argument(
-        '--out_folder', default='/multiverse/datasets/plizzari/kinetics_data/')
+        '--out_folder', default='./kinetics_data/')
     arg = parser.parse_args()
 
     part = ['val', 'train']
