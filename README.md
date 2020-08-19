@@ -81,7 +81,7 @@ The score resulting from the S-TR stream and T-TR stream are combined to produce
 Set in <code>/config/st_gcn/nturgbd/train.yaml</code>:
 - <code>only_attention: False</code>, to use ST-TR as an augmentation procedure to ST-GCN (refer to Sec. V(E) "Effect of Augmenting Convolution with Self-Attention")
 - <code>all_layers: True</code>, to apply ST-TR on all layers, otherwise it will be applied from the 4th layer on (refer to Sec. V(D) "Effect of Applying Self-Attention to Feature Extraction")
-- Set both <code>attention: True</code> and <code>tcn_attention: True</code> to combine both SSA and TSA on a unique stream (refer to Sec. V(F) "Effect of combining SSA and TSA on one stream"
+- Set both <code>attention: True</code> and <code>tcn_attention: True</code> to combine both SSA and TSA on a unique stream (refer to Sec. V(F) "Effect of combining SSA and TSA on one stream")
 - <code>more_channels: True</code>, to assign to each head more channels than dk/Nh.
 - <code>n</code>: used if more_channels is set to True, in order to assign to each head dk*num/Nh channels
 To set the block dimensions of the windowed version of Temporal Transformer:
