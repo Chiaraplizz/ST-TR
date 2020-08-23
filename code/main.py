@@ -44,10 +44,7 @@ device = torch.device("cuda:0" if torch.cuda.is_available() and use_gpu else "cp
 # torch.manual_seed(13696642)
 np.random.seed(13696641)
 torch.manual_seed(13696641)
-warmup = False
 
-new_dataset = False
-class_number = 60
 
 
 def get_parser():
@@ -198,7 +195,7 @@ def get_parser():
     parser.add_argument(
         '--start-epoch',
         type=int,
-        default=38
+        default=0
         ,
         help='start training from which epoch')
     parser.add_argument(
@@ -284,66 +281,39 @@ class Processor():
         self.data_loader = dict()
         self.trainLoader = Feeder(**self.arg.train_feeder_args)
         self.testLoader = Feeder(**self.arg.test_feeder_args)
-        if new_dataset:
-            self.trainLoaderNew = Feeder(**self.arg.train_feeder_args_new)
-            self.testLoaderNew = Feeder(**self.arg.test_feeder_args_new)
+
 
         print(self.trainLoader == self.testLoader)
         if (arg.validation_split):
             val_size = int(0.2 * len(self.trainLoader))
-            if new_dataset:
-                val_sizeNew = int(0.2 * len(self.trainLoaderNew))
 
-                print("Val size: ", val_size)
 
             self.trainLoader, self.valLoader = torch.utils.data.random_split(self.trainLoader,
                                                                              [len(self.trainLoader) - val_size,
                                                                               val_size])
-            if new_dataset:
-                self.trainLoaderNew, self.valLoaderNew = torch.utils.data.random_split(self.trainLoaderNew,
-                                                                                       [len(
-                                                                                           self.trainLoaderNew) - val_sizeNew,
-                                                                                        val_sizeNew])
+
         # print("Train size: ", len(self.trainLoaderNew))
         # print("Test size: ", len(self.testLoaderNew))
 
         # FIX ME SHUFFLE
-        if new_dataset:
-            if self.arg.phase == 'train':
-                self.data_loader['train'] = torch.utils.data.DataLoader(
-                    dataset=self.trainLoader + self.trainLoaderNew,
-                    batch_size=self.arg.batch_size,
-                    shuffle=True,
-                    num_workers=self.arg.num_worker)
 
-            self.data_loader['val'] = torch.utils.data.DataLoader(
-                dataset=self.testLoader + self.testLoaderNew,
-                batch_size=self.arg.test_batch_size,
-                shuffle=False,
+        if self.arg.phase == 'train':
+            self.data_loader['train'] = torch.utils.data.DataLoader(
+                dataset=self.trainLoader,
+                batch_size=self.arg.batch_size,
+                shuffle=True,
                 num_workers=self.arg.num_worker)
-            self.data_loader['test'] = torch.utils.data.DataLoader(
-                dataset=torch.utils.data.ConcatDataset([self.testLoader, self.testLoaderNew]),
-                batch_size=self.arg.test_batch_size,
-                shuffle=False,
-                num_workers=self.arg.num_worker)
-        else:
-            if self.arg.phase == 'train':
-                self.data_loader['train'] = torch.utils.data.DataLoader(
-                    dataset=self.trainLoader,
-                    batch_size=self.arg.batch_size,
-                    shuffle=True,
-                    num_workers=self.arg.num_worker)
 
-            self.data_loader['val'] = torch.utils.data.DataLoader(
-                dataset=self.testLoader,
-                batch_size=self.arg.test_batch_size,
-                shuffle=False,
-                num_workers=self.arg.num_worker)
-            self.data_loader['test'] = torch.utils.data.DataLoader(
-                dataset=self.testLoader,
-                batch_size=self.arg.test_batch_size,
-                shuffle=False,
-                num_workers=self.arg.num_worker)
+        self.data_loader['val'] = torch.utils.data.DataLoader(
+            dataset=self.testLoader,
+            batch_size=self.arg.test_batch_size,
+            shuffle=False,
+            num_workers=self.arg.num_worker)
+        self.data_loader['test'] = torch.utils.data.DataLoader(
+            dataset=self.testLoader,
+            batch_size=self.arg.test_batch_size,
+            shuffle=False,
+            num_workers=self.arg.num_worker)
 
     def load_model(self):
         output_device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -418,19 +388,13 @@ class Processor():
     def adjust_learning_rate(self, epoch):
         if self.arg.optimizer == 'SGD' or self.arg.optimizer == 'Adam' or self.arg.optimizer == 'Adamod':
             lr = self.arg.base_lr
-            if warmup and epoch <= 10:
-                lr = 0.001
-            if warmup and epoch == 11:
-                lr = 0.01
+
 
             step = self.arg.step
 
-            if not warmup:
-                lr = self.arg.base_lr * (
+            lr = self.arg.base_lr * (
                         self.arg.base_lr ** np.sum(epoch >= np.array(step)))
-            else:
-                lr = lr * (
-                        self.arg.base_lr ** np.sum(epoch >= np.array(step)))
+
             for param_group in self.optimizer.param_groups:
                 param_group['lr'] = lr
             return lr
@@ -508,7 +472,7 @@ class Processor():
 
                     # Get training statistics.
                     stats_train = 'Training: Epoch [{}/{}], Step [{}], Loss: {}, Training Accuracy: {}'.format(epoch,
-                                                                                                               80,
+                                                                                                               self.arg.num-epoch,
                                                                                                                batch_idx,
                                                                                                                loss.item(),
                                                                                                                acc)
@@ -622,7 +586,7 @@ class Processor():
                         # Get training statistics.
                         stats_train = 'Training: Epoch [{}/{}], Step [{}], Loss: {}, Training Accuracy: {}'.format(
                             epoch,
-                            80,
+                            self.arg.num-epoch,
                             batch_idx,
                             loss.item(),
                             acc)
@@ -674,8 +638,8 @@ class Processor():
         val_correct = 0
         val_total = 0
         conf_matrix_test = 0
-        class_correct = list(0. for i in range(0, class_number))
-        class_total = list(0. for i in range(0, class_number))
+        class_correct = list(0. for i in range(0, self.arg.num_class))
+        class_total = list(0. for i in range(0, self.arg.num_class))
 
         for ln in loader_name:
             loss_value = []
@@ -713,7 +677,7 @@ class Processor():
                     'loss-Val': loss,
                     'accuracy-test': val_accuracy
                 }
-                conf_matrix_test += confusion_matrix(predictions.cpu(), label.cpu(), labels=np.arange(class_number))
+                conf_matrix_test += confusion_matrix(predictions.cpu(), label.cpu(), labels=np.arange(self.arg.num_class))
                 np.save("./checkpoints/" + name_exp + "/confusion_test_" + str(epoch),
                         conf_matrix_test)
 
@@ -755,7 +719,7 @@ class Processor():
 
             stats_val = 'Testing: Epoch [{}/{}], Samples [{}/{}], Loss: {}, Testing Accuracy: {}'.format(
                 epoch,
-                80,
+                self.arg.num-epoch,
                 val_correct,
                 val_total,
                 loss.item(),
@@ -763,7 +727,7 @@ class Processor():
 
             print('\n' + stats_val)
 
-            for i in range(0, class_number):
+            for i in range(0, self.arg.num_class):
                 if class_total[i] != 0:
                     print('Accuracy of {} : {} / {} = {} %'.format(i + 1,
                                                                    int(class_correct[i]), int(class_total[i]),
@@ -795,8 +759,8 @@ class Processor():
         val_correct = 0
         conf_matrix_val = 0
         val_total = 0
-        class_correct = list(0. for i in range(0, class_number))
-        class_total = list(0. for i in range(0, class_number))
+        class_correct = list(0. for i in range(0, self.arg.num_class))
+        class_total = list(0. for i in range(0, self.arg.num_class))
         for ln in loader_name:
             loss_value = []
             score_frag = []
@@ -834,7 +798,7 @@ class Processor():
                     'loss-Val': loss,
                     'accuracy-val': val_accuracy
                 }
-                conf_matrix_val += confusion_matrix(predictions.cpu(), label.cpu(), labels=np.arange(class_number))
+                conf_matrix_val += confusion_matrix(predictions.cpu(), label.cpu(), labels=np.arange(self.arg.num_class))
                 np.save("./checkpoints/" + name_exp + "/conf_val_" + str(epoch),
                         conf_matrix_val)
 
@@ -849,7 +813,7 @@ class Processor():
 
             stats_val = 'Validation: Epoch [{}/{}], Samples [{}/{}], Loss: {}, Validation Accuracy: {}'.format(
                 epoch,
-                80,
+                self.arg.num-epoch,
                 val_correct,
                 val_total,
                 loss.item(),
@@ -857,7 +821,7 @@ class Processor():
 
             print('\n' + stats_val)
 
-            for i in range(0, class_number):
+            for i in range(0, self.arg.num_class):
                 if class_total[i] != 0:
                     print('Accuracy of {} : {} / {} = {} %'.format(i + 1,
                                                                    int(class_correct[i]), int(class_total[i]),
