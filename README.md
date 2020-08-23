@@ -111,7 +111,7 @@ Please cite the following paper if you use this code for your researches:
 </pre></code>
 
 ## Contact :pushpin:
-If you have any question, do not hesitate to contact me at <code> chiara.plizzari@mail.polimi.it </code>. I will be glad to clarify your doubts!
+If you have any question, do not hesitate to contact me at <code> chiara.plizzari@mail.polimi.it</code>. I will be glad to clarify your doubts!
 
 <sub> Note: we include LICENSE, LICENSE_1 and LICENSE_2 in this repository since part of the code has been derived respectively
 from https://github.com/yysijie/st-gcn, https://github.com/leaderj1001/Attention-Augmented-Conv2d
