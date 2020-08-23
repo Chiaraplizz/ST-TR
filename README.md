@@ -5,13 +5,13 @@ This repository contains the implementation of the model presented in:
 
 > **Spatial Temporal Graph Convolutional Networks for Skeleton-Based Action Recognition**, Chiara Plizzari, Marco Cannici, Matteo Matteucci, [ArXiv](https://arxiv.org/abs/2008.07404)
 
-![Alt Text](Additional_files/IMG.png)
+![Alt Text](additional_files/IMG.png)
 
 ### Visualizations of Spatial Transformer logits
 
 The heatmaps are 25 x 25 matrices, where each row and each column represents a body joint. An element in position (i, j) represents the correlation between joint i and joint j, resulting from self-attention.
 
-![Alt Text](Additional_files/ezgif.com-video-to-gif-2.gif)![Alt Text](Additional_files/ezgif.com-video-to-gif.gif)
+![Alt Text](additional_files/ezgif.com-video-to-gif-2.gif)![Alt Text](additional_files/ezgif.com-video-to-gif.gif)
 
 ### Prerequisites
 - Python3
@@ -83,7 +83,8 @@ Set in <code>/config/st_gcn/nturgbd/train.yaml</code>:
 - <code>all_layers: True</code>, to apply ST-TR on all layers, otherwise it will be applied from the 4th layer on (refer to Sec. V(D) "Effect of Applying Self-Attention to Feature Extraction")
 - Set both <code>attention: True</code> and <code>tcn_attention: True</code> to combine both SSA and TSA on a unique stream (refer to Sec. V(F) "Effect of combining SSA and TSA on one stream")
 - <code>more_channels: True</code>, to assign to each head more channels than dk/Nh.
-- <code>n</code>: used if more_channels is set to True, in order to assign to each head dk*num/Nh channels
+- <code>n</code>: used if <code>more_channels</code> is set to True, in order to assign to each head dk*num/Nh channels
+
 To set the block dimensions of the windowed version of Temporal Transformer:
 - <code>dim_block1, dim_block2, dim_block3</code>, respectively to set block dimension where the output channels are equal to 64, 128 and 256.
 
