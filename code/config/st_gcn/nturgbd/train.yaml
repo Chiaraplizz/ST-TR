@@ -12,6 +12,7 @@ train_feeder_args:
   normalization: False
   mirroring: False
 
+
 test_feeder_args:
   data_path: ./Output_skeletons_without_missing_skeletons/xsub/val_data_joint_bones.npy
   label_path: ./Output_skeletons_without_missing_skeletons/xsub/val_label_filtered.pkl
