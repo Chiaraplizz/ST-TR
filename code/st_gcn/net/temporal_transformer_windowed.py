@@ -2,7 +2,6 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F_func
 from .net import Unit2D
-from visualization_temporal import visualize
 import math
 import numpy as np
 import time

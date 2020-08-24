@@ -2,7 +2,6 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F_func
 from .net import Unit2D
-from visualization_temporal import visualize
 import math
 import numpy as np
 import time
@@ -163,25 +162,7 @@ class tcn_unit_attention(nn.Module):
             weights = weights * mask
             weights = weights / (weights.sum(3, keepdim=True) + 1e-8)
 
-        # Code for the visualization of attention logits
-        if (self.visualization):
-            weights = weights.reshape(2, -1, self.Nh, T, T)
-            logits = logits.reshape(2, -1, self.Nh, T, T)
-            if self.relative:
-                logits_sum = logits_sum.reshape(2, -1, self.Nh, V, V)
-                rel_logits = rel_logits.reshape(2, -1, self.Nh, V, V)
-                logits = logits.reshape(2, -1, self.Nh, V, V)
-                min_v = min(float(torch.min(logits[:, :, 0, :, :])), float(torch.min(logits_sum[:, :, 0, :, :])),
-                            float(torch.min(rel_logits[:, :, 0, :, :])))
-                max_v = max(float(torch.max(logits[:, :, 0, :, :])), float(torch.max(logits_sum[:, :, 0, :, :])),
-                            float(torch.max(rel_logits[:, :, 0, :, :])))
-                # visualize(logits_sum, str(label), 'logits_sum', self.layer,name)
-                # visualize((logits_sum - min_v) / (max_v - min_v), str(label), 'logits_sum_norm', self.layer, name)
-                # visualize(rel_logits, str(label), 'rel_logits', self.layer,name)
-                visualize(weights, (rel_logits - min_v) / (max_v - min_v), '', 'rel_logits_norm',
-                          self.layer,
-                          '')
-            weights = weights.reshape(B, self.Nh, V, V)
+
 
         # attn_out
         # (batch, Nh, time, dvh)

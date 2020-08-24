@@ -53,8 +53,6 @@ class Feeder(torch.utils.data.Dataset):
         self.random_move = random_move
         self.window_size = window_size
         self.normalization = normalization
-        self.mirroring = mirroring
-        print("Mirroring: ", self.mirroring)
         self.load_data(mmap)
         if normalization:
             self.get_mean_map()
@@ -106,7 +104,6 @@ class Feeder(torch.utils.data.Dataset):
         # for i in range(0, 60):
         #     print("Samples per class " + str(i)+" are "+str(class_total[i]))
 
-        print("All zeros", np.all(self.data[:,0:3,:,1,0])==0)
         self.N, self.C, self.T, self.V, self.M = self.data.shape
 
     def get_mean_map(self):

@@ -57,8 +57,6 @@ class Feeder120(torch.utils.data.Dataset):
         self.random_move = random_move
         self.window_size = window_size
         self.normalization = normalization
-        self.mirroring = mirroring
-        print("Mirroring: ", self.mirroring)
         self.load_data(mmap)
         if normalization:
             self.get_mean_map()
