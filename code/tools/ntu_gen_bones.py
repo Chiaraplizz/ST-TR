@@ -31,8 +31,10 @@ paris = {
     )
 }
 
-sets = {'val'}
-datasets = {'xsub'}
+sets = {'train','val'}
+
+# datasets = {'kinetics'} if kinetics is used
+datasets = {'xsub', 'xview'}
 
 
 def gen_bone_data():
