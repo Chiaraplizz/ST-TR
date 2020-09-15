@@ -40,35 +40,24 @@ def gen_bone_data():
     for dataset in datasets:
         for set in sets:
             print(dataset, set)
-            data = np.load(
-                './Output_skeletons_without_missing_skeletons/{}/{}_data_joint_filtered.npy'.format(
-                    dataset, set))
-
-            data1 = np.load(
-                './Output_skeletons_without_missing_skeletons/{}/{}_data_joint_bones.npy'.format(
-                    dataset, set))
-
-           # N, C, T, V, M = data.shape
-            # fp_sp = open_memmap(
-            #      '/multiverse/datasets/plizzari/new_data_processed/{}/{}_data_joint_filtered_bone_new.npy'.format(
-            #          dataset, set),
-            #      dtype='float32',
-            #      mode='w+',
-            #      shape=(N, 3, T, V, M))
+            data = np.load('../data/{}/{}_data_joint.npy'.format(dataset, set))
+            N, C, T, V, M = data.shape
+            fp_sp = open_memmap(
+                '../data/{}/{}_data_bone.npy'.format(dataset, set),
+                dtype='float32',
+                mode='w+',
+                shape=(N, 3, T, V, M))
 
             # Copy the joints data to bone placeholder tensor
-           # fp_sp[:, :C, :, :, :] = data
+            fp_sp[:, :C, :, :, :] = data
             for v1, v2 in tqdm(paris[dataset]):
                 # Reduce class index for NTU datasets
                 if dataset != 'kinetics':
-                    v1 = v1 - 1
-                    v2 = v2 - 1
-
-
+                    v1 -= 1
+                    v2 -= 1
                 # Assign bones to be joint1 - joint2, the pairs are pre-determined and hardcoded
                 # There also happens to be 25 bones
-
-                print(data1[:, 3:6, :, v1, :] == (data[:, :, :, v1, :] - data[:, :, :, v2, :]))
+                fp_sp[:, :, :, v1, :] = data[:, :, :, v1, :] - data[:, :, :, v2, :]
 
 
 if __name__ == '__main__':
