@@ -244,6 +244,7 @@ class Model(nn.Module):
         if (self.concat_original):
             x_coord = x
             x_coord = x_coord.permute(0, 4, 1, 2, 3).reshape(N * M, C, T, V)
+
         # data bn
         if self.use_data_bn:
             if self.M_dim_bn:
