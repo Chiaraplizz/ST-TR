@@ -103,7 +103,7 @@ class Model(nn.Module):
             Graph = import_class(graph)
             self.graph = Graph(**graph_args)
             # self.A = torch.from_numpy(self.graph.A).float().cuda(0)
-            #self.A = torch.from_numpy(self.graph.A).float()
+            # self.A = torch.from_numpy(self.graph.A).float()
             self.A = torch.from_numpy(self.graph.A.astype(np.float32))
 
         self.num_class = num_class
@@ -115,10 +115,10 @@ class Model(nn.Module):
         self.more_channels = more_channels
         self.concat_original = concat_original
         self.all_layers = all_layers
-        self.dv=dv
-        self.num=n
-        self.Nh=Nh
-        self.dk=dk
+        self.dv = dv
+        self.num = n
+        self.Nh = Nh
+        self.dk = dk
         self.data_normalization = data_normalization
         self.skip_conn = skip_conn
         self.visualization = visualization
@@ -174,6 +174,7 @@ class Model(nn.Module):
             dim_block1=dim_block1,
             dim_block2=dim_block2,
             dim_block3=dim_block3,
+            num_point=num_point
         )
 
         if self.multiscale:
@@ -215,10 +216,9 @@ class Model(nn.Module):
                 backbone_out_t = backbone_out_t // stride + 1
         self.backbone = nn.ModuleList(backbone)
         print("self.backbone: ", self.backbone)
-        for i in range(0,len(backbone)):
+        for i in range(0, len(backbone)):
             pytorch_total_params = sum(p.numel() for p in self.backbone[i].parameters() if p.requires_grad)
             print(pytorch_total_params)
-
 
         # head
 
@@ -240,6 +240,7 @@ class Model(nn.Module):
 
     def forward(self, x, label, name):
         N, C, T, V, M = x.size()
+        print(x.shape)
         if (self.concat_original):
             x_coord = x
             x_coord = x_coord.permute(0, 4, 1, 2, 3).reshape(N * M, C, T, V)
@@ -249,7 +250,7 @@ class Model(nn.Module):
                 x = x.permute(0, 4, 3, 1, 2).contiguous().view(N, M * V * C, T)
             else:
                 x = x.permute(0, 4, 3, 1, 2).contiguous().view(N * M, V * C, T)
-
+            print(x.shape)
             x = self.data_bn(x)
             # to (N*M, C, T, V)
             x = x.view(N, M, V, C, T).permute(0, 1, 3, 4, 2).contiguous().view(
@@ -306,6 +307,7 @@ class TCN_GCN_unit(nn.Module):
                  dim_block1,
                  dim_block2,
                  dim_block3,
+                 num_point,
                  weight_matrix,
                  more_channels,
                  drop_connect,
@@ -323,6 +325,7 @@ class TCN_GCN_unit(nn.Module):
                  mask_learning=False,
                  last=False,
                  last_graph=False
+
                  ):
         super(TCN_GCN_unit, self).__init__()
         half_out_channel = out_channel / 2
@@ -332,6 +335,7 @@ class TCN_GCN_unit(nn.Module):
         self.last = last
         self.data_normalization = data_normalization
         self.skip_conn = skip_conn
+        self.num_point = num_point
         self.adjacency = adjacency
         self.last_graph = last_graph
         self.layer = layer
@@ -339,7 +343,7 @@ class TCN_GCN_unit(nn.Module):
         self.drop_connect = drop_connect
         self.visualization = visualization
         self.device = device
-        self.all_layers=all_layers
+        self.all_layers = all_layers
         self.more_channels = more_channels
 
         if (out_channel >= starting_ch and attention or (self.all_layers and attention)):
@@ -349,7 +353,8 @@ class TCN_GCN_unit(nn.Module):
                                            relative=relative, only_attention=only_attention, layer=layer, incidence=A,
                                            bn_flag=True, last_graph=self.last_graph, more_channels=self.more_channels,
                                            drop_connect=self.drop_connect, adjacency=self.adjacency, num=num,
-                                           data_normalization=self.data_normalization, skip_conn=self.skip_conn, visualization=self.visualization)
+                                           data_normalization=self.data_normalization, skip_conn=self.skip_conn,
+                                           visualization=self.visualization, num_point=self.num_point)
         else:
 
             self.gcn1 = unit_gcn(
@@ -363,15 +368,18 @@ class TCN_GCN_unit(nn.Module):
 
             if out_channel <= starting_ch and self.all_layers:
                 self.tcn1 = tcn_unit_attention_block(out_channel, out_channel, dv_factor=dv,
-                                               dk_factor=dk, Nh=Nh,
-                                               relative=relative, only_temporal_attention=only_temporal_attention,
-                                               dropout=dropout,
-                                               kernel_size_temporal=9, stride=stride,
-                                               weight_matrix=weight_matrix, bn_flag=True, last=self.last, layer=layer,
-                                               device=self.device, more_channels=self.more_channels,
-                                               drop_connect=self.drop_connect, n=num,
-                                               data_normalization=self.data_normalization, skip_conn=self.skip_conn,
-                                               visualization=self.visualization, dim_block1=dim_block1, dim_block2=dim_block2, dim_block3=dim_block3)
+                                                     dk_factor=dk, Nh=Nh,
+                                                     relative=relative, only_temporal_attention=only_temporal_attention,
+                                                     dropout=dropout,
+                                                     kernel_size_temporal=9, stride=stride,
+                                                     weight_matrix=weight_matrix, bn_flag=True, last=self.last,
+                                                     layer=layer,
+                                                     device=self.device, more_channels=self.more_channels,
+                                                     drop_connect=self.drop_connect, n=num,
+                                                     data_normalization=self.data_normalization,
+                                                     skip_conn=self.skip_conn,
+                                                     visualization=self.visualization, dim_block1=dim_block1,
+                                                     dim_block2=dim_block2, dim_block3=dim_block3, num_point=self.num_point)
             else:
                 self.tcn1 = tcn_unit_attention(out_channel, out_channel, dv_factor=dv,
                                                dk_factor=dk, Nh=Nh,
@@ -383,7 +391,7 @@ class TCN_GCN_unit(nn.Module):
                                                device=self.device, more_channels=self.more_channels,
                                                drop_connect=self.drop_connect, n=num,
                                                data_normalization=self.data_normalization, skip_conn=self.skip_conn,
-                                               visualization=self.visualization)
+                                               visualization=self.visualization, num_point=self.num_point)
 
 
 
@@ -400,12 +408,10 @@ class TCN_GCN_unit(nn.Module):
         else:
             self.down1 = None
 
-
-
     def forward(self, x, label, name):
         # N, C, T, V = x.size()
         x = self.tcn1(self.gcn1(x, label, name)) + (x if
-                                       (self.down1 is None) else self.down1(x))
+                                                    (self.down1 is None) else self.down1(x))
 
         return x
 

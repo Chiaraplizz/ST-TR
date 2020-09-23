@@ -163,8 +163,7 @@ class Feeder120(torch.utils.data.Dataset):
             data_numpy = tools.auto_pading(data_numpy, self.window_size)
         if self.random_move:
             data_numpy = tools.random_move(data_numpy)
-        if self.mirroring and bool(torch.bernoulli((0.5) * torch.ones(1))):
-            data_numpy = tools.mirroring_v1(data_numpy)
+
 
         return data_numpy, label, sample
 

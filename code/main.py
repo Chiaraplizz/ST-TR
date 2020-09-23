@@ -36,7 +36,7 @@ import os
 incidence = np.array([])
 
 name_exp = ''
-writer = SummaryWriter('./' + name_exp)
+writer = SummaryWriter('/multiverse/storage/plizzari/' + name_exp)
 use_gpu = True
 device = torch.device("cuda:0" if torch.cuda.is_available() and use_gpu else "cpu")
 
@@ -73,11 +73,11 @@ def get_parser():
 
     parser.add_argument(
         '--work-dir',
-        default='./checkpoints/' + name_exp,
+        default='/multiverse/storage/plizzari/checkpoints/' + name_exp,
         help='the work folder for storing results')
     parser.add_argument(
         '--config',
-        default='./config/st_gcn/nturgbd/train.yaml',
+        default='/multiverse/storage/plizzari/code/st-tr/code/config/st_gcn/nturgbd/train.yaml',
         help='path to the configuration file')
 
     # processor

@@ -18,7 +18,7 @@ scale_norm = False
 
 class gcn_unit_attention(nn.Module):
     def __init__(self, in_channels, out_channels, incidence, num, dv_factor, dk_factor, Nh, complete, relative,
-                 only_attention, layer, more_channels, drop_connect, data_normalization, skip_conn, adjacency, padding=0,
+                 only_attention, layer, more_channels, drop_connect, data_normalization, skip_conn, adjacency, num_point, padding=0,
                  kernel_size=1,
                  stride=1, bn_flag=True,
                  t_dilation=1, last_graph=False, visualization=True):
@@ -32,6 +32,7 @@ class gcn_unit_attention(nn.Module):
         self.drop_connect = drop_connect
         self.data_normalization=data_normalization
         self.skip_conn=skip_conn
+        self.num_point=num_point
         self.adjacency = adjacency
         print("Nh ", Nh)
         print("Dv ", dv_factor)
@@ -42,7 +43,7 @@ class gcn_unit_attention(nn.Module):
             self.out_channels = out_channels - int((out_channels) * dv_factor)
         else:
             self.out_channels = out_channels
-        self.data_bn = nn.BatchNorm1d(self.in_channels * 25)
+        self.data_bn = nn.BatchNorm1d(self.in_channels * self.num_point)
         self.bn = nn.BatchNorm2d(out_channels)
         self.only_attention = only_attention
         self.bn_flag = bn_flag
@@ -73,7 +74,7 @@ class gcn_unit_attention(nn.Module):
                                                 more_channels=self.more_channels,
                                                 drop_connect=self.drop_connect,
                                                 data_normalization=self.data_normalization, skip_conn=self.skip_conn,
-                                                adjacency=self.adjacency, visualization=self.visualization)
+                                                adjacency=self.adjacency, visualization=self.visualization, num_point=self.num_point)
         else:
             self.attention_conv = spatial_attention(in_channels=self.in_channels, kernel_size=1,
                                                 dk=int(out_channels * dk_factor),
@@ -83,7 +84,7 @@ class gcn_unit_attention(nn.Module):
                                                 A=self.incidence, num=num, more_channels=self.more_channels,
                                                 drop_connect=self.drop_connect,
                                                 data_normalization=self.data_normalization, skip_conn=self.skip_conn,
-                                                adjacency=self.adjacency, visualization=self.visualization)
+                                                adjacency=self.adjacency, visualization=self.visualization, num_point=self.num_point)
 
 
     def forward(self, x, label, name):

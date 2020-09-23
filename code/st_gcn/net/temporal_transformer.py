@@ -21,7 +21,7 @@ Function adapted from: https://github.com/leaderj1001/Attention-Augmented-Conv2d
 class tcn_unit_attention(nn.Module):
     def __init__(self, in_channels, out_channels, dv_factor, dk_factor, Nh, n,
                  relative, only_temporal_attention, dropout, kernel_size_temporal, stride, weight_matrix,
-                 last, layer, device, more_channels, drop_connect,
+                 last, layer, device, more_channels, drop_connect, num_point,
                  bn_flag=True,
                  shape=25, visualization=False, data_normalization=True, skip_conn=True, more_relative=False):
         super(tcn_unit_attention, self).__init__()
@@ -29,6 +29,7 @@ class tcn_unit_attention(nn.Module):
         self.out_channels = out_channels
         self.layer = layer
         self.visualization = visualization
+        self.num_point = num_point
         self.more_channels = more_channels
         self.only_temporal_att = only_temporal_attention
         self.drop_connect = drop_connect
@@ -59,7 +60,7 @@ class tcn_unit_attention(nn.Module):
         else:
             self.down = None
         if self.data_normalization:
-            self.data_bn = nn.BatchNorm1d(self.in_channels * 25)
+            self.data_bn = nn.BatchNorm1d(self.in_channels * self.num_point)
         if dropout:
             self.dropout = nn.Dropout(0.25)
 
@@ -73,26 +74,24 @@ class tcn_unit_attention(nn.Module):
             self.qkv_conv = nn.Conv2d(self.in_channels, (2 * self.dk + self.dv) * self.Nh // self.num,
                                       kernel_size=(1, stride),
                                       stride=(1, stride),
-                                      padding=(0,int((1 - 1) / 2)))
+                                      padding=(0, int((1 - 1) / 2)))
         else:
             self.qkv_conv = nn.Conv2d(self.in_channels, 2 * self.dk + self.dv, kernel_size=(1, stride),
                                       stride=(1, stride),
-                                      padding=(0,int((1-1)/2)))
+                                      padding=(0, int((1 - 1) / 2)))
         if (self.more_channels):
             self.attn_out = nn.Conv2d(self.dv * self.Nh // self.num, self.dv, kernel_size=1, stride=1)
         else:
             self.attn_out = nn.Conv2d(self.dv, self.dv, kernel_size=1, stride=1)
 
-
         if self.out_channels == 64:
-            frames=300
+            frames = 300
 
         if self.out_channels == 128:
-            frames=150
+            frames = 150
 
         if self.out_channels == 256:
-           frames=75
-
+            frames = 75
 
         if self.relative:
             if self.more_channels:
@@ -102,8 +101,6 @@ class tcn_unit_attention(nn.Module):
             else:
                 self.key_rel = nn.Parameter(
                     torch.randn((2 * frames - 1, self.dk // Nh), requires_grad=True))
-
-
 
         assert self.Nh != 0, "integer division or modulo by zero, Nh >= 1"
         assert self.dk % self.Nh == 0, "dk should be divided by Nh. (example: out_channels: 20, dk: 40, Nh: 4)"
@@ -161,8 +158,6 @@ class tcn_unit_attention(nn.Module):
             mask = mask.reshape(B, self.Nh, T).unsqueeze(2).expand(B, self.Nh, T, T)
             weights = weights * mask
             weights = weights / (weights.sum(3, keepdim=True) + 1e-8)
-
-
 
         # attn_out
         # (batch, Nh, time, dvh)

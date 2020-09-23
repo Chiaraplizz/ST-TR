@@ -16,7 +16,7 @@ Function adapted from: https://github.com/leaderj1001/Attention-Augmented-Conv2d
 
 class spatial_attention(nn.Module):
     def __init__(self, in_channels, kernel_size, dk, dv, Nh, complete, relative, layer, A, more_channels, drop_connect,
-                 adjacency, num,
+                 adjacency, num, num_point,
                  shape=25, stride=1,
                  last_graph=False, data_normalization=True, skip_conn=True, visualization=True):
         super(spatial_attention, self).__init__()
@@ -34,6 +34,7 @@ class spatial_attention(nn.Module):
         self.skip_conn = skip_conn
         self.adjacency = adjacency
         self.Nh = Nh
+        self.num_point=num_point
         self.A = A[0] + A[1] + A[2]
         if self.adjacency:
             self.mask = nn.Parameter(torch.ones(self.A.size()))
@@ -70,9 +71,9 @@ class spatial_attention(nn.Module):
             # One weight repeated over the diagonal
             # V^2-V+1 paramters in positions outside the diagonal
             if self.more_channels:
-                self.key_rel = nn.Parameter(torch.randn(((25 ** 2) - 25, self.dk // self.num), requires_grad=True))
+                self.key_rel = nn.Parameter(torch.randn(((self.num_point ** 2) - self.num_point, self.dk // self.num), requires_grad=True))
             else:
-                self.key_rel = nn.Parameter(torch.randn(((25 ** 2) - 25, self.dk // Nh), requires_grad=True))
+                self.key_rel = nn.Parameter(torch.randn(((self.num_point ** 2) - self.num_point, self.dk // Nh), requires_grad=True))
             if self.more_channels:
                 self.key_rel_diagonal = nn.Parameter(torch.randn((1, self.dk // self.num), requires_grad=True))
             else:

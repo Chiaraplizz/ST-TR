@@ -19,7 +19,7 @@ scale_norm = False
 class tcn_unit_attention_block(nn.Module):
     def __init__(self, in_channels, out_channels, dv_factor, dk_factor, Nh,
                  relative, only_temporal_attention, dropout, kernel_size_temporal, stride, weight_matrix,
-                 last, layer, device, more_channels, drop_connect, n, dim_block1, dim_block2, dim_block3,
+                 last, layer, device, more_channels, drop_connect, n, dim_block1, dim_block2, dim_block3, num_point,
                  bn_flag=True,
                  shape=25, visualization=False, data_normalization=True, skip_conn=True, more_relative=False):
         super(tcn_unit_attention_block, self).__init__()
@@ -36,6 +36,7 @@ class tcn_unit_attention_block(nn.Module):
         self.more_relative = more_relative
         self.kernel_size_attention = 9
         self.num = n
+        self.num_point=num_point
         self.dk = int(dk_factor * out_channels)
         if (not self.only_temporal_att):
             self.dv = int(dv_factor * out_channels)
@@ -48,7 +49,7 @@ class tcn_unit_attention_block(nn.Module):
         self.relative = relative
         self.stride = stride
         if data_normalization:
-            self.data_bn = nn.BatchNorm1d(self.in_channels * 25)
+            self.data_bn = nn.BatchNorm1d(self.in_channels * self.num_point)
 
         self.padding = (self.kernel_size_temporal - 1) // 2
         self.bn = nn.BatchNorm2d(out_channels)
