@@ -93,7 +93,9 @@ Set in <code>/config/st_gcn/nturgbd/train.yaml</code>:
 - <code>channels: 6 </code>, because on channels dimension we have both the coordinates of joint (3), and coordinates of bones(3)
 - <code>double_channel: True </code>, since in this configuration we also doubled the channels in each layer.
 
- 
+### Pre-trained Models
+Please notice I have attached pre-trained models of the configurations presented in the paper in the <code>checkpoint_ST-TR</code> folder. 
+
 
 
 
