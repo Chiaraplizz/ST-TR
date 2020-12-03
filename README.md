@@ -79,7 +79,7 @@ The score resulting from the S-TR stream and T-TR stream are combined to produce
 
 ### Adaptive Configuration (AGCN)
 
-In order to run T-TR-agcn and ST-TR-agcn configurations, please set <code>agcn:True</code>.
+In order to run T-TR-agcn and ST-TR-agcn configurations, please set <code>agcn: True</code>.
 
 
 ### Different ST-TR configurations
