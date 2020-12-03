@@ -338,7 +338,7 @@ class TCN_GCN_unit(nn.Module):
                  mask_learning=False,
                  last=False,
                  last_graph=False,
-                 agcn = True
+                 agcn = False
                  ):
         super(TCN_GCN_unit, self).__init__()
         half_out_channel = out_channel / 2

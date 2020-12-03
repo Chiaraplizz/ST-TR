@@ -41,6 +41,7 @@ model_args:
   concat_original: True
   all_layers: False
   adjacency: False
+  agcn: False
   dv: 0.25
   dk: 0.25
   Nh: 8
