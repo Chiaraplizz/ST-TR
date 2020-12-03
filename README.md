@@ -77,6 +77,11 @@ to run the temporal transformer stream (T-TR-stream).
 The score resulting from the S-TR stream and T-TR stream are combined to produce the final ST-TR score by: 
 <pre><code>  python3 ensemble.py </pre></code>
 
+### Adaptive Graph Convolution
+
+In order to run T-TR-agcn and ST-TR-agcn configurations, please set <code>agcn:True</code>.
+
+
 ### Different ST-TR configurations
 Set in <code>/config/st_gcn/nturgbd/train.yaml</code>:
 - <code>only_attention: False</code>, to use ST-TR as an augmentation procedure to ST-GCN (refer to Sec. V(E) "Effect of Augmenting Convolution with Self-Attention")
