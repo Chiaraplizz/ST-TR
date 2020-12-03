@@ -10,7 +10,9 @@ from .temporal_transformer import tcn_unit_attention
 
 from .gcn_attention import gcn_unit_attention
 from .net import Unit2D, conv_init, import_class
-from .unit_agcn import unit_gcn
+from .unit_gcn import unit_gcn
+from .unit_agcn import unit_agcn
+
 
 default_backbone_all_layers = [(3, 64, 1), (64, 64, 1), (64, 64, 1), (64, 64, 1), (64, 128,
                                                                                    2), (128, 128, 1),
@@ -95,7 +97,8 @@ class Model(nn.Module):
                  use_local_bn=False,
                  multiscale=False,
                  temporal_kernel_size=9,
-                 dropout=0.5):
+                 dropout=0.5,
+                 agcn = True):
         super(Model, self).__init__()
         if graph is None:
             raise ValueError()
@@ -174,7 +177,8 @@ class Model(nn.Module):
             dim_block1=dim_block1,
             dim_block2=dim_block2,
             dim_block3=dim_block3,
-            num_point=num_point
+            num_point=num_point,
+            agcn = agcn
         )
 
         if self.multiscale:
@@ -223,12 +227,20 @@ class Model(nn.Module):
         # head
 
         if not all_layers:
-            self.gcn0 = unit_gcn(
-                channel,
-                backbone_in_c,
-                self.A,
-                mask_learning=mask_learning,
-                use_local_bn=use_local_bn)
+            if not agcn:
+                self.gcn0 = unit_gcn(
+                    channel,
+                    backbone_in_c,
+                    self.A,
+                    mask_learning=mask_learning,
+                    use_local_bn=use_local_bn)
+            else:
+                self.gcn0 = unit_agcn(
+                    channel,
+                    backbone_in_c,
+                    self.A,
+                    mask_learning=mask_learning,
+                    use_local_bn=use_local_bn)
 
             self.tcn0 = Unit2D(backbone_in_c, backbone_in_c, kernel_size=9)
 
@@ -325,8 +337,8 @@ class TCN_GCN_unit(nn.Module):
                  use_local_bn=False,
                  mask_learning=False,
                  last=False,
-                 last_graph=False
-
+                 last_graph=False,
+                 agcn = True
                  ):
         super(TCN_GCN_unit, self).__init__()
         half_out_channel = out_channel / 2
@@ -358,12 +370,20 @@ class TCN_GCN_unit(nn.Module):
                                            visualization=self.visualization, num_point=self.num_point)
         else:
 
-            self.gcn1 = unit_gcn(
-                in_channel,
-                out_channel,
-                A,
-                use_local_bn=use_local_bn,
-                mask_learning=mask_learning)
+            if not agcn:
+                self.gcn1 = unit_gcn(
+                    in_channel,
+                    out_channel,
+                    A,
+                    use_local_bn=use_local_bn,
+                    mask_learning=mask_learning)
+            else:
+                self.gcn1 = unit_agcn(
+                    in_channel,
+                    out_channel,
+                    A,
+                    use_local_bn=use_local_bn,
+                    mask_learning=mask_learning)
 
         if (out_channel >= starting_ch and tcn_attention or (self.all_layers and tcn_attention)):
 

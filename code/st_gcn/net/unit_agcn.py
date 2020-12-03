@@ -38,7 +38,7 @@ def conv_branch_init(conv, branches):
     nn.init.constant_(conv.bias, 0)
 
 
-class unit_gcn(nn.Module):
+class unit_agcn(nn.Module):
     def __init__(self, in_channels, out_channels, A, coff_embedding=4, num_subset=3, use_local_bn=False,
                  mask_learning=False):
         super(unit_gcn, self).__init__()

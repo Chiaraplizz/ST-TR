@@ -29,9 +29,9 @@ model_args:
   num_person: 2
   mask_learning: True
   use_data_bn: True
-  attention: False
+  attention: True
   only_attention: True
-  tcn_attention: True
+  tcn_attention: False
   data_normalization: True
   skip_conn: True
   weight_matrix: 2
@@ -45,6 +45,7 @@ model_args:
   concat_original: True
   all_layers: False
   adjacency: False
+  agcn: False
   dv: 0.25
   dk: 0.25
   Nh: 8
@@ -69,7 +70,7 @@ step: [60,90]
 
 # training
 device: [0,1,2,3]
-batch_size: 16
+batch_size: 2
 test_batch_size: 8
 num_epoch: 120
 nesterov: True

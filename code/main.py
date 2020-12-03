@@ -159,7 +159,7 @@ def get_parser():
         help='the arguments of model')
     parser.add_argument(
         '--weights',
-        default='',
+        default='/multiverse/storage/plizzari/checkpoints/GraphTransformer_bones/epoch20_model.pt',
         help='the weights for network initialization')
     parser.add_argument(
         '--ignore-weights',
