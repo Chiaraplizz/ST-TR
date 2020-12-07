@@ -19,9 +19,9 @@ dataset = arg.datasets
 label = open('./Output_skeletons_without_missing_skeletons/xsub/val_label_filtered.pkl', 'rb')
 label = np.array(pickle.load(label))
 #
-r1 = open('./epoch1_test_score.pkl', 'rb')
+r1 = open('./epoch1_test_score_s-tr.pkl', 'rb')
 r1 = list(pickle.load(r1).items())
-r2 = open('./epoch1_test_score.pkl', 'rb')
+r2 = open('./epoch1_test_score_t-tr.pkl', 'rb')
 r2 = list(pickle.load(r2).items())
 right_num = total_num = right_num_5 = 0
 print(label.size)
