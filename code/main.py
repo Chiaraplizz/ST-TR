@@ -108,7 +108,7 @@ def get_parser():
     parser.add_argument(
         '--eval-interval',
         type=int,
-        default=1,
+        default=5,
         help='the interval for evaluating models (#iteration)')
     parser.add_argument(
         '--print-log',
@@ -845,10 +845,7 @@ class Processor():
         return val_accuracy
 
     def start(self):
-        accuracy = self.val(
-            0,
-            save_score=self.arg.save_score,
-            loader_name=['val'])
+
         if not self.arg.training:
             self.test(
                 epoch=0, save_score=self.arg.save_score, loader_name=['test'])
