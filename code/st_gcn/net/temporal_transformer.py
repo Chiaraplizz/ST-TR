@@ -76,9 +76,14 @@ class tcn_unit_attention(nn.Module):
                                       stride=(1, stride),
                                       padding=(0, int((1 - 1) / 2)))
         else:
-            self.qkv_conv = nn.Conv2d(self.in_channels, 2 * self.dk + self.dv, kernel_size=(1, stride),
+            if self.num_point % 2 != 0:
+                self.qkv_conv = nn.Conv2d(self.in_channels, 2 * self.dk + self.dv, kernel_size=(1, stride),
                                       stride=(1, stride),
                                       padding=(0, int((1 - 1) / 2)))
+            else:
+                self.qkv_conv = nn.Conv2d(self.in_channels, 2 * self.dk + self.dv, kernel_size=(1, 1),
+                                          stride=(1, stride),
+                                          padding=(0, int((1 - 1) / 2)))
         if (self.more_channels):
             self.attn_out = nn.Conv2d(self.dv * self.Nh // self.num, self.dv, kernel_size=1, stride=1)
         else:
