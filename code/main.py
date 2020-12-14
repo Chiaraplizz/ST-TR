@@ -35,7 +35,7 @@ import os
 
 incidence = np.array([])
 
-name_exp = ''
+name_exp = 'prova20'
 writer = SummaryWriter('/multiverse/storage/plizzari/' + name_exp)
 use_gpu = True
 device = torch.device("cuda:0" if torch.cuda.is_available() and use_gpu else "cpu")
@@ -77,7 +77,7 @@ def get_parser():
         help='the work folder for storing results')
     parser.add_argument(
         '--config',
-        default='/multiverse/storage/plizzari/code/st-tr/code/config/st_gcn/nturgbd/train.yaml',
+        default='/multiverse/storage/plizzari/code/st-tr/code/config/st_gcn/kinetics-skeleton/train.yaml',
         help='path to the configuration file')
 
     # processor
@@ -108,7 +108,7 @@ def get_parser():
     parser.add_argument(
         '--eval-interval',
         type=int,
-        default=10,
+        default=1,
         help='the interval for evaluating models (#iteration)')
     parser.add_argument(
         '--print-log',
@@ -159,7 +159,7 @@ def get_parser():
         help='the arguments of model')
     parser.add_argument(
         '--weights',
-        default='/multiverse/storage/plizzari/checkpoints/GraphTransformer_bones/epoch20_model.pt',
+        default=None,
         help='the weights for network initialization')
     parser.add_argument(
         '--ignore-weights',
@@ -464,6 +464,7 @@ class Processor():
                     'accuracy-Train': acc,
                 }
 
+
                 # Print statistics every 100 batches
                 if (batch_idx + 1) % 200 == 0:
                     print("Total samples seen so far: ", train_total)
@@ -477,6 +478,7 @@ class Processor():
                                                                                                                loss.item(),
                                                                                                                acc)
                     print('\n' + stats_train)
+
                     step = epoch * len(loader) + batch_idx
 
                     # Print tensorboard info
@@ -553,6 +555,8 @@ class Processor():
 
 
 
+
+
                 # Updating running_loss and seen samples
                 running_loss += loss.item()
                 running_batches += 1
@@ -592,6 +596,8 @@ class Processor():
                             acc)
                         print('\n' + stats_train)
                         step = epoch * (len(loader) / arg.optimize_every) + real_batch_index
+
+
 
                         # Print tensorboard info
                         for tag, value in info.items():
@@ -638,8 +644,8 @@ class Processor():
         val_correct = 0
         val_total = 0
         conf_matrix_test = 0
-        class_correct = list(0. for i in range(0, self.arg.num_class))
-        class_total = list(0. for i in range(0, self.arg.num_class))
+        class_correct = list(0. for i in range(0, self.arg.model_args['num_class']))
+        class_total = list(0. for i in range(0, self.arg.model_args['num_class']))
 
         for ln in loader_name:
             loss_value = []
@@ -677,7 +683,7 @@ class Processor():
                     'loss-Val': loss,
                     'accuracy-test': val_accuracy
                 }
-                conf_matrix_test += confusion_matrix(predictions.cpu(), label.cpu(), labels=np.arange(self.arg.num_class))
+                conf_matrix_test += confusion_matrix(predictions.cpu(), label.cpu(), labels=np.arange(self.arg.model_args['num_class']))
                 np.save("./checkpoints/" + name_exp + "/confusion_test_" + str(epoch),
                         conf_matrix_test)
 
@@ -727,7 +733,7 @@ class Processor():
 
             print('\n' + stats_val)
 
-            for i in range(0, self.arg.num_class):
+            for i in range(0, self.arg.model_args['num_class']):
                 if class_total[i] != 0:
                     print('Accuracy of {} : {} / {} = {} %'.format(i + 1,
                                                                    int(class_correct[i]), int(class_total[i]),
@@ -759,8 +765,8 @@ class Processor():
         val_correct = 0
         conf_matrix_val = 0
         val_total = 0
-        class_correct = list(0. for i in range(0, self.arg.num_class))
-        class_total = list(0. for i in range(0, self.arg.num_class))
+        class_correct = list(0. for i in range(0, self.arg.model_args['num_class']))
+        class_total = list(0. for i in range(0, self.arg.model_args['num_class']))
         for ln in loader_name:
             loss_value = []
             score_frag = []
@@ -798,7 +804,7 @@ class Processor():
                     'loss-Val': loss,
                     'accuracy-val': val_accuracy
                 }
-                conf_matrix_val += confusion_matrix(predictions.cpu(), label.cpu(), labels=np.arange(self.arg.num_class))
+                conf_matrix_val += confusion_matrix(predictions.cpu(), label.cpu(), labels=np.arange(self.arg.model_args['num_class']))
                 np.save("./checkpoints/" + name_exp + "/conf_val_" + str(epoch),
                         conf_matrix_val)
 
@@ -821,7 +827,7 @@ class Processor():
 
             print('\n' + stats_val)
 
-            for i in range(0, self.arg.num_class):
+            for i in range(0, self.arg.model_args['num_class']):
                 if class_total[i] != 0:
                     print('Accuracy of {} : {} / {} = {} %'.format(i + 1,
                                                                    int(class_correct[i]), int(class_total[i]),
@@ -839,7 +845,10 @@ class Processor():
         return val_accuracy
 
     def start(self):
-
+        accuracy = self.val(
+            0,
+            save_score=self.arg.save_score,
+            loader_name=['val'])
         if not self.arg.training:
             self.test(
                 epoch=0, save_score=self.arg.save_score, loader_name=['test'])
