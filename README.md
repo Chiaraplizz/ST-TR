@@ -1,7 +1,7 @@
 # Spatial Temporal Transformer Network
 
 ### Introduction
-This repository contains the implementation of the model presented in the following paper, which will be presented at ICPRW:
+This repository contains the implementation of the model presented in the following paper:
 
 > **Spatial Temporal Graph Convolutional Networks for Skeleton-Based Action Recognition**, Chiara Plizzari, Marco Cannici, Matteo Matteucci, [ArXiv](https://arxiv.org/abs/2008.07404)
 
