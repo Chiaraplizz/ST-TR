@@ -99,7 +99,7 @@ Set in <code>/config/st_gcn/nturgbd/train.yaml</code>:
 - <code>double_channel: True </code>, since in this configuration we also doubled the channels in each layer.
 
 ### Pre-trained Models
-Please notice I have attached pre-trained models of the configurations presented in the paper in the <code>checkpoint_ST-TR</code> folder. 
+Please notice I have attached pre-trained models of the configurations presented in the paper in the <code>checkpoint_ST-TR</code> folder. Please note that the *_bones_*.pth configurations correspond to the models trained with joint+bones information. 
 
 
 
