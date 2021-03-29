@@ -1,7 +1,7 @@
 # Spatial Temporal Transformer Network
 
 ### Introduction
-This repository contains the implementation of the model presented in:
+This repository contains the implementation of the model presented in the following paper:
 
 > **Spatial Temporal Graph Convolutional Networks for Skeleton-Based Action Recognition**, Chiara Plizzari, Marco Cannici, Matteo Matteucci, [ArXiv](https://arxiv.org/abs/2008.07404)
 
@@ -99,7 +99,7 @@ Set in <code>/config/st_gcn/nturgbd/train.yaml</code>:
 - <code>double_channel: True </code>, since in this configuration we also doubled the channels in each layer.
 
 ### Pre-trained Models
-Please notice I have attached pre-trained models of the configurations presented in the paper in the <code>checkpoint_ST-TR</code> folder. 
+Please notice I have attached pre-trained models of the configurations presented in the paper in the <code>checkpoint_ST-TR</code> folder. Please note that the \*_bones_\*.pth configurations correspond to the models trained with joint+bones information, while the others are trained with joints only.
 
 
 
