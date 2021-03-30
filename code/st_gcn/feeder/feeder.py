@@ -130,7 +130,6 @@ class Feeder(torch.utils.data.Dataset):
         # normalization
         if self.normalization:
             data_numpy = (data_numpy - self.mean_map) / self.std_map
-
         # processing
         if self.random_shift:
             data_numpy = tools.random_shift(data_numpy)
