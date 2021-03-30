@@ -199,7 +199,7 @@ def get_parser():
         ,
         help='start training from which epoch')
     parser.add_argument(
-        '--num-epoch',
+        '--num_epoch',
         type=int,
         default=120,
         help='stop training in which epoch')
@@ -238,6 +238,7 @@ class Processor():
         self.params = arg
         self.graph = nx.Graph()
         self.num_joints = 25
+        self.best_epoch = 0
 
     def save_checkpoint(self, path, filename, epoch):
         os.makedirs(path, exist_ok=True)
@@ -442,7 +443,7 @@ class Processor():
                     data.float().cuda(self.output_device), requires_grad=False)
                 label = Variable(
                     label.long().cuda(self.output_device), requires_grad=False)
-                timer['dataloader'] += self.split_time()
+                timer['dataloader'] = timer['dataloader'] +self.split_time()
 
                 name = name[0]
                 output = self.model(data, label, name)
@@ -454,10 +455,10 @@ class Processor():
                 self.optimizer.step()
                 loss_value.append(loss.data.item())
                 _, predictions = torch.max(output, 1)
-                train_total += label.size(0)
-                train_correct += (predictions == label).sum().item()
+                train_total = train_total + label.size(0)
+                train_correct = train_correct+(predictions == label).sum().item()
                 acc = (train_correct / train_total) * 100
-                timer['model'] += self.split_time()
+                timer['model'] = timer['model'] + self.split_time()
 
                 info = {
                     'loss-Train': loss,
@@ -473,7 +474,7 @@ class Processor():
 
                     # Get training statistics.
                     stats_train = 'Training: Epoch [{}/{}], Step [{}], Loss: {}, Training Accuracy: {}'.format(epoch,
-                                                                                                               self.arg.num-epoch,
+                                                                                                               self.arg.num_epoch,
                                                                                                                batch_idx,
                                                                                                                loss.item(),
                                                                                                                acc)
@@ -494,7 +495,7 @@ class Processor():
                     self.print_log(
                         '\tBatch({}/{}) done. Loss: {:.4f}  lr:{:.6f}'.format(
                             batch_idx, len(loader), loss.data.item(), lr))
-                timer['statistics'] += self.split_time()
+                timer['statistics'] = timer['statistics']+ self.split_time()
 
             # statistics of time consumption and loss
             proportion = {
@@ -507,7 +508,8 @@ class Processor():
                 '\tTime consumption: [Data]{dataloader}, [Network]{model}'.format(
                     **proportion))
 
-            if save_model:
+            if True:
+                print("saving!")
                 model_path = '{}/epoch{}_model.pt'.format(self.arg.work_dir,
                                                           epoch + 1)
                 state_dict = self.model.state_dict()
@@ -531,7 +533,7 @@ class Processor():
                 label = Variable(
                     label.long().cuda(self.output_device), requires_grad=False)
 
-                timer['dataloader'] += self.split_time()
+                timer['dataloader'] = timer['dataloader']+self.split_time()
 
                 # forward
 
@@ -543,10 +545,10 @@ class Processor():
                 loss_norm.backward()
 
                 _, predictions = torch.max(output, 1)
-                train_total += label.size(0)
-                train_correct += (predictions == label).sum().item()
+                train_total = train_total+label.size(0)
+                train_correct = train_correct+(predictions == label).sum().item()
                 acc = (train_correct / train_total) * 100
-                timer['model'] += self.split_time()
+                timer['model'] = timer['model']+self.split_time()
 
                 info = {
                     'loss-Train': loss,
@@ -558,10 +560,10 @@ class Processor():
 
 
                 # Updating running_loss and seen samples
-                running_loss += loss.item()
-                running_batches += 1
-                self.seen += label.size(0)
-                running_samples += label.size(0)
+                running_loss = running_loss+loss.item()
+                running_batches =running_batches+ 1
+                self.seen = self.seen+label.size(0)
+                running_samples = running_samples+label.size(0)
 
                 if running_batches % running_optimize_every == 0:
 
@@ -590,14 +592,22 @@ class Processor():
                         # Get training statistics.
                         stats_train = 'Training: Epoch [{}/{}], Step [{}], Loss: {}, Training Accuracy: {}'.format(
                             epoch,
-                            self.arg.num-epoch,
+                            self.arg.num_epoch,
                             batch_idx,
                             loss.item(),
                             acc)
                         print('\n' + stats_train)
                         step = epoch * (len(loader) / arg.optimize_every) + real_batch_index
 
-
+                        if True:
+                            print("saving!")
+                            model_path = '{}/epoch{}_model.pt'.format(self.arg.work_dir,
+                                                                      epoch + 1)
+                            state_dict = self.model.state_dict()
+                            weights = OrderedDict([[k.split('module.')[-1],
+                                                    v.cpu()] for k, v in state_dict.items()])
+                            self.save_checkpoint(self.arg.work_dir, "epoch%d.ckpt" % epoch, epoch)
+                            torch.save(weights, model_path)
 
                         # Print tensorboard info
                         for tag, value in info.items():
@@ -609,14 +619,14 @@ class Processor():
 
                     self.optimizer.zero_grad()
                     running_optimize_every = min(arg.optimize_every, tot_num_batches - running_batches)
-                    real_batch_index += 1
+                    real_batch_index = real_batch_index+1
 
                     # statistics
                 if batch_idx % self.arg.log_interval == 0:
                     self.print_log(
                         '\tBatch({}/{}) done. Loss: {:.4f}  lr:{:.6f}'.format(
                             batch_idx, len(loader), loss.data.item(), lr))
-                timer['statistics'] += self.split_time()
+                timer['statistics'] = timer['statistics'] + self.split_time()
 
             # statistics of time consumption and loss
             proportion = {
@@ -629,13 +639,14 @@ class Processor():
                 '\tTime consumption: [Data]{dataloader}, [Network]{model}'.format(
                     **proportion))
 
-            if save_model:
-                model_path = '{}/epoch{}_model.pt'.format(self.arg.log_dir,
+            if True:
+                print("saving!")
+                model_path = '{}/epoch{}_model.pt'.format(self.arg.work_dir,
                                                           epoch + 1)
                 state_dict = self.model.state_dict()
                 weights = OrderedDict([[k.split('module.')[-1],
                                         v.cpu()] for k, v in state_dict.items()])
-                self.save_checkpoint(self.arg.log_dir, "epoch%d.ckpt" % epoch, epoch)
+                self.save_checkpoint(self.arg.work_dir, "epoch%d.ckpt" % epoch, epoch)
                 torch.save(weights, model_path)
 
     def test(self, epoch, save_score=True, loader_name=['test']):
@@ -666,8 +677,8 @@ class Processor():
                 loss_value.append(loss.data.item())
 
                 _, predictions = torch.max(output, 1)
-                val_total += label.size(0)
-                val_correct += (predictions == label).double().sum().item()
+                val_total =val_total+ label.size(0)
+                val_correct = val_correct+(predictions == label).double().sum().item()
                 val_accuracy = (val_correct / val_total) * 100
                 c = (label == predictions.squeeze()).float()
                 val_accuracy_batch = (c).float().mean()
@@ -675,8 +686,8 @@ class Processor():
                 # Calculating validation accuracy for each class
                 for l in range(0, label.size(0)):
                     class_label = label[l]
-                    class_correct[class_label - 1] += c[l]
-                    class_total[class_label - 1] += 1
+                    class_correct[class_label - 1] = class_correct[class_label - 1] + c[l]
+                    class_total[class_label - 1] = class_total[class_label - 1]+ 1
 
                 # print("Test accuracy on batch: ", testing_accuracy_batch)
                 info = {
@@ -725,7 +736,7 @@ class Processor():
 
             stats_val = 'Testing: Epoch [{}/{}], Samples [{}/{}], Loss: {}, Testing Accuracy: {}'.format(
                 epoch,
-                self.arg.num-epoch,
+                self.arg.num_epoch,
                 val_correct,
                 val_total,
                 loss.item(),
@@ -788,8 +799,8 @@ class Processor():
                 loss_value.append(loss.data.item())
 
                 _, predictions = torch.max(output, 1)
-                val_total += label.size(0)
-                val_correct += (predictions == label).double().sum().item()
+                val_total = val_total+label.size(0)
+                val_correct = val_correct+(predictions == label).double().sum().item()
                 val_accuracy = (val_correct / val_total) * 100
                 c = (label == predictions.squeeze()).float()
                 val_accuracy_batch = (c).float().mean()
@@ -797,16 +808,16 @@ class Processor():
                 # Calculating validation accuracy for each class
                 for l in range(0, label.size(0)):
                     class_label = label[l]
-                    class_correct[class_label - 1] += c[l]
-                    class_total[class_label - 1] += 1
+                    class_correct[class_label - 1] = class_correct[class_label - 1]+c[l]
+                    class_total[class_label - 1] = class_total[class_label - 1]+1
 
                 info = {
                     'loss-Val': loss,
                     'accuracy-val': val_accuracy
                 }
-                conf_matrix_val += confusion_matrix(predictions.cpu(), label.cpu(), labels=np.arange(self.arg.model_args['num_class']))
-                np.save("./checkpoints/" + name_exp + "/conf_val_" + str(epoch),
-                        conf_matrix_val)
+               # conf_matrix_val += confusion_matrix(predictions.cpu(), label.cpu(), labels=np.arange(self.arg.model_args['num_class']))
+                #np.save("./checkpoints/" + name_exp + "/conf_val_" + str(epoch),
+                 #       conf_matrix_val)
 
             score = np.concatenate(score_frag)
 
@@ -819,7 +830,7 @@ class Processor():
 
             stats_val = 'Validation: Epoch [{}/{}], Samples [{}/{}], Loss: {}, Validation Accuracy: {}'.format(
                 epoch,
-                self.arg.num-epoch,
+                self.arg.num_epoch,
                 val_correct,
                 val_total,
                 loss.item(),
@@ -846,6 +857,8 @@ class Processor():
 
     def start(self):
 
+
+
         if not self.arg.training:
             self.test(
                 epoch=0, save_score=self.arg.save_score, loader_name=['test'])
@@ -859,6 +872,7 @@ class Processor():
         print("Params: ", pytorch_total_params)
         print("Layer params: ", layer_params)
 
+        self.arg.phase = 'test'
         if self.arg.phase == 'train':
             self.print_log('Parameters:\n{}\n'.format(str(vars(self.arg))))
             for epoch in range(self.arg.start_epoch, self.arg.num_epoch):

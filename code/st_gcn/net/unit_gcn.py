@@ -72,7 +72,7 @@ class unit_gcn(nn.Module):
 
         # reweight adjacency matrix
         if self.mask_learning:
-            A *=  self.mask
+            A = A*self.mask
 
         # graph convolution
         for i, a in enumerate(A):
@@ -81,7 +81,7 @@ class unit_gcn(nn.Module):
             if i == 0:
                 y = self.conv_list[i](xa)
             else:
-                y +=  self.conv_list[i](xa)
+                y =  y+self.conv_list[i](xa)
 
         # batch normalization
         if self.use_local_bn:

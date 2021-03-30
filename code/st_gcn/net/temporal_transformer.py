@@ -195,7 +195,7 @@ class tcn_unit_attention(nn.Module):
                 else:
                     result = attn_out
 
-                result += (x_sum if (self.down is None) else self.down(x_sum))
+                result = result+(x_sum if (self.down is None) else self.down(x_sum))
 
 
             else:
@@ -205,7 +205,7 @@ class tcn_unit_attention(nn.Module):
                 else:
                     result = attn_out
 
-                result += (x_sum if (self.down is None) else self.down(x_sum))
+                result = result+(x_sum if (self.down is None) else self.down(x_sum))
 
 
         else:
@@ -232,7 +232,7 @@ class tcn_unit_attention(nn.Module):
         v = self.split_heads_2d(v, Nh)
 
         dkh = dk // Nh
-        q *= dkh ** -0.5
+        q = q* (dkh ** -0.5)
         if self.more_channels:
 
             flat_q = torch.reshape(q, (N, Nh, dk // self.num, V1 * T1))

@@ -95,5 +95,5 @@ class unit_agcn(nn.Module):
             y = z + y if y is not None else z
 
         y = self.bn(y)
-        y += self.down(x)
+        y = y+ self.down(x)
         return self.relu(y)

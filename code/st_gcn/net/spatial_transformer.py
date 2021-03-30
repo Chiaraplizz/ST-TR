@@ -113,7 +113,7 @@ class spatial_attention(nn.Module):
             A = self.A
             A *= self.mask
             A = A.unsqueeze(0).expand(M, V, V)
-            logits += A
+            logits = logits+A
             logits = logits.reshape(B, self.Nh, V, V)
 
         # Relative positional encoding is used or not
@@ -173,7 +173,7 @@ class spatial_attention(nn.Module):
         v = self.split_heads_2d(v, Nh)
 
         dkh = dk // Nh
-        q *= dkh ** -0.5
+        q = q*(dkh ** -0.5)
         if self.more_channels:
             flat_q = torch.reshape(q, (N, Nh, dk // self.num, T * V))
             flat_k = torch.reshape(k, (N, Nh, dk // self.num, T * V))
