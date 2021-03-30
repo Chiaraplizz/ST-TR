@@ -41,7 +41,7 @@ def conv_branch_init(conv, branches):
 class unit_agcn(nn.Module):
     def __init__(self, in_channels, out_channels, A, coff_embedding=4, num_subset=3, use_local_bn=False,
                  mask_learning=False):
-        super(unit_gcn, self).__init__()
+        super(unit_agcn, self).__init__()
         inter_channels = out_channels // coff_embedding
         self.inter_c = inter_channels
         self.PA = nn.Parameter(A)
