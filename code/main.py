@@ -77,7 +77,7 @@ def get_parser():
         help='the work folder for storing results')
     parser.add_argument(
         '--config',
-        default='/multiverse/storage/plizzari/code/st-tr/code/config/st_gcn/kinetics-skeleton/train.yaml',
+        default='/multiverse/storage/plizzari/code/st-tr/code/code/config/st_gcn/nturgbd/train.yaml',
         help='path to the configuration file')
 
     # processor
@@ -108,7 +108,7 @@ def get_parser():
     parser.add_argument(
         '--eval-interval',
         type=int,
-        default=5,
+        default=10,
         help='the interval for evaluating models (#iteration)')
     parser.add_argument(
         '--print-log',
@@ -695,7 +695,7 @@ class Processor():
                     'accuracy-test': val_accuracy
                 }
                 conf_matrix_test += confusion_matrix(predictions.cpu(), label.cpu(), labels=np.arange(self.arg.model_args['num_class']))
-                np.save("./checkpoints/" + name_exp + "/confusion_test_" + str(epoch),
+                np.save("/multiverse/storage/plizzari/checkpoints/" + name_exp + "/confusion_test_" + str(epoch),
                         conf_matrix_test)
 
             score = np.concatenate(score_frag)
@@ -872,7 +872,6 @@ class Processor():
         print("Params: ", pytorch_total_params)
         print("Layer params: ", layer_params)
 
-        self.arg.phase = 'test'
         if self.arg.phase == 'train':
             self.print_log('Parameters:\n{}\n'.format(str(vars(self.arg))))
             for epoch in range(self.arg.start_epoch, self.arg.num_epoch):
@@ -902,9 +901,9 @@ class Processor():
                     pass
 
             self.print_log('Load weights from {}.'.format(
-                './checkpoints/' + name_exp + '/epoch' + str(epoch) + '_model.pt'))
+                '/multiverse/storage/plizzari/checkpoints/' + name_exp + '/epoch' + str(epoch) + '_model.pt'))
             weights = torch.load(
-                './checkpoints/' + name_exp + '/epoch' + str(epoch) + '_model.pt')
+                '/multiverse/storage/plizzari/checkpoints/' + name_exp + '/epoch' + str(epoch) + '_model.pt')
 
             for w in self.arg.ignore_weights:
                 if weights.pop(w, None) is not None:
@@ -933,7 +932,7 @@ class Processor():
             self.print_log('Model:   {}.'.format(self.arg.model))
             self.print_log('Weights: {}.'.format(self.arg.weights))
             weights = torch.load(
-                './checkpoints/' + name_exp + '/epoch' + str(119) + '_model.pt')
+                '/multiverse/storage/plizzari/checkpoints/' + name_exp + '/epoch' + str(1) + '_model.pt')
             self.test(
                 epoch=0, save_score=self.arg.save_score, loader_name=['test'])
             self.print_log('Done.\n')
