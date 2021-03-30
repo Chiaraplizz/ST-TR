@@ -107,6 +107,7 @@ class Model(nn.Module):
             self.graph = Graph(**graph_args)
             # self.A = torch.from_numpy(self.graph.A).float().cuda(0)
             # self.A = torch.from_numpy(self.graph.A).float()
+            #self.A = self.graph.A
             self.A = torch.from_numpy(self.graph.A.astype(np.float32))
 
         self.num_class = num_class
@@ -125,7 +126,6 @@ class Model(nn.Module):
         self.data_normalization = data_normalization
         self.skip_conn = skip_conn
         self.visualization = visualization
-        print(self.visualization)
         self.double_channel = double_channel
         self.adjacency = adjacency
 
@@ -263,7 +263,6 @@ class Model(nn.Module):
                 x = x.permute(0, 4, 3, 1, 2).contiguous().view(N, M * V * C, T)
             else:
                 x = x.permute(0, 4, 3, 1, 2).contiguous().view(N * M, V * C, T)
-            print(x.shape)
             x = self.data_bn(x)
             # to (N*M, C, T, V)
             x = x.view(N, M, V, C, T).permute(0, 1, 3, 4, 2).contiguous().view(
@@ -343,7 +342,8 @@ class TCN_GCN_unit(nn.Module):
         super(TCN_GCN_unit, self).__init__()
         half_out_channel = out_channel / 2
         self.A = A
-        self.V = A.size()[-1]
+
+        self.V = A.shape[-1]
         self.C = in_channel
         self.last = last
         self.data_normalization = data_normalization
