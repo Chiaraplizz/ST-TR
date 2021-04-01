@@ -36,7 +36,7 @@ import os
 incidence = np.array([])
 
 name_exp = 'prova20'
-writer = SummaryWriter('/multiverse/storage/plizzari/' + name_exp)
+writer = SummaryWriter('./' + name_exp)
 use_gpu = True
 device = torch.device("cuda:0" if torch.cuda.is_available() and use_gpu else "cpu")
 
@@ -73,11 +73,11 @@ def get_parser():
 
     parser.add_argument(
         '--work-dir',
-        default='/multiverse/storage/plizzari/checkpoints/' + name_exp,
+        default='./' + name_exp,
         help='the work folder for storing results')
     parser.add_argument(
         '--config',
-        default='/multiverse/storage/plizzari/code/st-tr/code/code/config/st_gcn/nturgbd/train.yaml',
+        default='./train.yaml',
         help='path to the configuration file')
 
     # processor
@@ -695,7 +695,7 @@ class Processor():
                     'accuracy-test': val_accuracy
                 }
                 conf_matrix_test += confusion_matrix(predictions.cpu(), label.cpu(), labels=np.arange(self.arg.model_args['num_class']))
-                np.save("/multiverse/storage/plizzari/checkpoints/" + name_exp + "/confusion_test_" + str(epoch),
+                np.save("./checkpoints/" + name_exp + "/confusion_test_" + str(epoch),
                         conf_matrix_test)
 
             score = np.concatenate(score_frag)
@@ -901,9 +901,9 @@ class Processor():
                     pass
 
             self.print_log('Load weights from {}.'.format(
-                '/multiverse/storage/plizzari/checkpoints/' + name_exp + '/epoch' + str(epoch) + '_model.pt'))
+                './' + name_exp + '/epoch' + str(epoch) + '_model.pt'))
             weights = torch.load(
-                '/multiverse/storage/plizzari/checkpoints/' + name_exp + '/epoch' + str(epoch) + '_model.pt')
+                './' + name_exp + '/epoch' + str(epoch) + '_model.pt')
 
             for w in self.arg.ignore_weights:
                 if weights.pop(w, None) is not None:
@@ -932,7 +932,7 @@ class Processor():
             self.print_log('Model:   {}.'.format(self.arg.model))
             self.print_log('Weights: {}.'.format(self.arg.weights))
             weights = torch.load(
-                '/multiverse/storage/plizzari/checkpoints/' + name_exp + '/epoch' + str(1) + '_model.pt')
+                './checkpoints/' + name_exp + '/epoch' + str(1) + '_model.pt')
             self.test(
                 epoch=0, save_score=self.arg.save_score, loader_name=['test'])
             self.print_log('Done.\n')
