@@ -931,8 +931,7 @@ class Processor():
             self.arg.print_log = False
             self.print_log('Model:   {}.'.format(self.arg.model))
             self.print_log('Weights: {}.'.format(self.arg.weights))
-            weights = torch.load(
-                './checkpoints/' + name_exp + '/epoch' + str(1) + '_model.pt')
+            
             self.test(
                 epoch=0, save_score=self.arg.save_score, loader_name=['test'])
             self.print_log('Done.\n')
