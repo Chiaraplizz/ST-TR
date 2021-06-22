@@ -4,6 +4,7 @@
 This repository contains the implementation of the model presented in the following paper:
 
 > **Spatial Temporal Graph Convolutional Networks for Skeleton-Based Action Recognition**, Chiara Plizzari, Marco Cannici, Matteo Matteucci, [ArXiv](https://arxiv.org/abs/2008.07404)
+> **Skeleton-based action recognition via spatial and temporal transformer networks**, Chiara Plizzari, Marco Cannici, Matteo Matteucci, Computer Vision and Image Understanding, Volumes 208-209, 2021, 103219, ISSN 1077-3142, [CVIU] (https://doi.org/10.1016/j.cviu.2021.103219)
 
 ![Alt Text](additional_files/IMG.png)
 
@@ -107,14 +108,19 @@ Please notice I have attached pre-trained models of the configurations presented
 ### Citation 
 Please cite the following paper if you use this code for your researches:
 
-<pre><code> @misc{plizzari2020spatial,
-    title={Spatial Temporal Transformer Network for Skeleton-based Action Recognition},
-    author={Chiara Plizzari and Marco Cannici and Matteo Matteucci},
-    year={2020},
-    eprint={2008.07404},
-    archivePrefix={arXiv},
-    primaryClass={cs.CV}
-  }
+<pre><code> @article{PLIZZARI2021103219,
+title = {Skeleton-based action recognition via spatial and temporal transformer networks},
+journal = {Computer Vision and Image Understanding},
+volume = {208-209},
+pages = {103219},
+year = {2021},
+issn = {1077-3142},
+doi = {https://doi.org/10.1016/j.cviu.2021.103219},
+url = {https://www.sciencedirect.com/science/article/pii/S1077314221000631},
+author = {Chiara Plizzari and Marco Cannici and Matteo Matteucci},
+keywords = {Representation learning, Graph CNN, Self-attention, 3D skeleton, Action recognition},
+abstract = {Skeleton-based Human Activity Recognition has achieved great interest in recent years as skeleton data has demonstrated being robust to illumination changes, body scales, dynamic camera views, and complex background. In particular, Spatial–Temporal Graph Convolutional Networks (ST-GCN) demonstrated to be effective in learning both spatial and temporal dependencies on non-Euclidean data such as skeleton graphs. Nevertheless, an effective encoding of the latent information underlying the 3D skeleton is still an open problem, especially when it comes to extracting effective information from joint motion patterns and their correlations. In this work, we propose a novel Spatial–Temporal Transformer network (ST-TR) which models dependencies between joints using the Transformer self-attention operator. In our ST-TR model, a Spatial Self-Attention module (SSA) is used to understand intra-frame interactions between different body parts, and a Temporal Self-Attention module (TSA) to model inter-frame correlations. The two are combined in a two-stream network, whose performance is evaluated on three large-scale datasets, NTU-RGB+D 60, NTU-RGB+D 120, and Kinetics Skeleton 400, consistently improving backbone results. Compared with methods that use the same input data, the proposed ST-TR achieves state-of-the-art performance on all datasets when using joints’ coordinates as input, and results on-par with state-of-the-art when adding bones information.}
+}
 </pre></code>
 
 ## Contact :pushpin:
