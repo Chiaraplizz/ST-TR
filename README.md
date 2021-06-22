@@ -4,6 +4,7 @@
 This repository contains the implementation of the model presented in the following paper:
 
 > **Spatial Temporal Graph Convolutional Networks for Skeleton-Based Action Recognition**, Chiara Plizzari, Marco Cannici, Matteo Matteucci, [ArXiv](https://arxiv.org/abs/2008.07404)
+
 > **Skeleton-based action recognition via spatial and temporal transformer networks**, Chiara Plizzari, Marco Cannici, Matteo Matteucci, Computer Vision and Image Understanding, Volumes 208-209, 2021, 103219, ISSN 1077-3142, [CVIU] (https://doi.org/10.1016/j.cviu.2021.103219)
 
 ![Alt Text](additional_files/IMG.png)
