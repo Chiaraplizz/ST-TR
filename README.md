@@ -122,26 +122,13 @@ Please cite one of the following papers if you use this code for your researches
 }
 </pre></code>
 
-<pre><code>@InProceedings{10.1007/978-3-030-68796-0_50,
-author="Plizzari, Chiara
-and Cannici, Marco
-and Matteucci, Matteo",
-editor="Del Bimbo, Alberto
-and Cucchiara, Rita
-and Sclaroff, Stan
-and Farinella, Giovanni Maria
-and Mei, Tao
-and Bertini, Marco
-and Escalante, Hugo Jair
-and Vezzani, Roberto",
-title="Spatial Temporal Transformer Network for Skeleton-Based Action Recognition",
-booktitle="Pattern Recognition. ICPR International Workshops and Challenges",
-year="2021",
-publisher="Springer International Publishing",
-address="Cham",
-pages="694--701",
-abstract="Skeleton-based human action recognition has achieved a great interest in recent years, as skeleton data has been demonstrated to be robust to illumination changes, body scales, dynamic camera views, and complex background. Nevertheless, an effective encoding of the latent information underlying the 3D skeleton is still an open problem. In this work, we propose a novel Spatial-Temporal Transformer network (ST-TR) which models dependencies between joints using the Transformer self-attention operator. In our ST-TR model, a Spatial Self-Attention module (SSA) is used to understand intra-frame interactions between different body parts, and a Temporal Self-Attention module (TSA) to model inter-frame correlations. The two are combined in a two-stream network which outperforms state-of-the-art models using the same input data on both NTU-RGB+D 60 and NTU-RGB+D 120.",
-isbn="978-3-030-68796-0"
+<pre><code>@inproceedings{plizzari2021spatial,
+  title={Spatial temporal transformer network for skeleton-based action recognition},
+  author={Plizzari, Chiara and Cannici, Marco and Matteucci, Matteo},
+  booktitle={Pattern Recognition. ICPR International Workshops and Challenges: Virtual Event, January 10--15, 2021, Proceedings, Part III},
+  pages={694--701},
+  year={2021},
+  organization={Springer}
 }
 </pre></code>
 
