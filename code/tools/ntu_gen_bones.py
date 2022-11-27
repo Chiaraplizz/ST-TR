@@ -24,7 +24,7 @@ paris = {
         (22, 23), (21, 21), (23, 8), (24, 25), (25, 12)
     ),
 
-    'kinetics': (
+    'kinetics_data': (
         (0, 0), (1, 0), (2, 1), (3, 2), (4, 3), (5, 1),
         (6, 5), (7, 6), (8, 2), (9, 8), (10, 9), (11, 5),
         (12, 11), (13, 12), (14, 0), (15, 0), (16, 14), (17, 15)
@@ -33,8 +33,8 @@ paris = {
 
 sets = {'train','val'}
 
-# datasets = {'kinetics'} if kinetics is used
-datasets = {'xsub', 'xview'}
+datasets = {'kinetics_data'} # if kinetics is used
+# datasets = {'xsub', 'xview'}
 
 
 def gen_bone_data():
@@ -54,7 +54,7 @@ def gen_bone_data():
             fp_sp[:, :C, :, :, :] = data
             for v1, v2 in tqdm(paris[dataset]):
                 # Reduce class index for NTU datasets
-                if dataset != 'kinetics':
+                if dataset != 'kinetics_data':
                     v1 -= 1
                     v2 -= 1
                 # Assign bones to be joint1 - joint2, the pairs are pre-determined and hardcoded
